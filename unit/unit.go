@@ -5,6 +5,19 @@ import (
 	"time"
 )
 
+const (
+	DefaultUnitName string = "Unit"
+
+	AttackMin int = 1
+	AttackMax int = 5
+	LifeMin   int = 1
+	LifeMax   int = 8
+)
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 // Unit is the interface for all units in the game.
 type Unit interface {
 }
@@ -19,17 +32,13 @@ type unit struct {
 	CurrentLife uint
 }
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
-
 // NewRandomizedUnit creates new unit with randomly-generated attributes.
 func NewRandomizedUnit() Unit {
 	u := unit{}
-	attack := uint(rand.Intn(9)) + 1 // 1-9
-	life := uint(rand.Intn(9)) + 1   // 1-9
+	attack := uint(rand.Intn(AttackMax) + AttackMin)
+	life := uint(rand.Intn(LifeMax) + LifeMin)
 
-	u.Name = "Unit"
+	u.Name = DefaultUnitName
 	u.BaseAttack = attack
 	u.CurrentAttack = attack
 	u.BaseLife = life
