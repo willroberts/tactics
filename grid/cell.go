@@ -13,6 +13,7 @@ type Cell interface {
 	PosY() int32
 	Width() int
 	Height() int
+	Elevation() int
 	Rect() *sdl.Rect
 
 	// Logical properties.
@@ -22,15 +23,15 @@ type Cell interface {
 	IsOccupied() bool
 
 	// Methods for retrieving and setting Texture.
-	// Methods for getting and setting elevation (isometric).
 }
 
 type cell struct {
-	x        int
-	y        int
-	width    int
-	height   int
-	contents Occupier
+	x         int
+	y         int
+	width     int
+	height    int
+	elevation int
+	contents  Occupier
 }
 
 func (c *cell) X() int {
@@ -66,6 +67,10 @@ func (c *cell) Height() int {
 	return c.height
 }
 
+func (c *cell) Elevation() int {
+	return c.elevation
+}
+
 func (c *cell) Contents() Occupier {
 	return c.contents
 }
@@ -83,5 +88,5 @@ func (c *cell) IsOccupied() bool {
 }
 
 func newCell(x, y, w, h int) Cell {
-	return &cell{x: x, y: y, width: w, height: h}
+	return &cell{x: x, y: y, width: w, height: h, elevation: 0}
 }
