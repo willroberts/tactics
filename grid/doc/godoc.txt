@@ -18,9 +18,7 @@ type Cell interface {
     PosY() int32
     Rect() *sdl.Rect
     Width() int
-    SetWidth(int)
     Height() int
-    SetHeight(int)
     Color() uint32
     SetColor(uint32)
 

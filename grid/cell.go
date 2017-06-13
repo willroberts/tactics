@@ -13,9 +13,7 @@ type Cell interface {
 	PosY() int32
 	Rect() *sdl.Rect
 	Width() int
-	SetWidth(int)
 	Height() int
-	SetHeight(int)
 	Color() uint32
 	SetColor(uint32)
 
@@ -67,16 +65,8 @@ func (c *cell) Width() int {
 	return c.width
 }
 
-func (c *cell) SetWidth(i int) {
-	c.width = i
-}
-
 func (c *cell) Height() int {
 	return c.height
-}
-
-func (c *cell) SetHeight(i int) {
-	c.height = i
 }
 
 func (c *cell) Color() uint32 {
