@@ -1,7 +1,9 @@
+use 'godoc cmd/github.com/willroberts/tactics/grid' for documentation on the github.com/willroberts/tactics/grid command 
+
 PACKAGE DOCUMENTATION
 
 package grid
-    import "."
+    import "github.com/willroberts/tactics/grid"
 
 
 TYPES
@@ -30,9 +32,6 @@ type Cell interface {
 }
     Cell is a container at a specific position inside a Grid.
 
-func NewCell(x, y, w, h int) Cell
-    NewCell initializes and returns a Cell.
-
 type Grid interface {
     Width() int
     Height() int
@@ -57,5 +56,5 @@ type Occupier interface {
 
 SUBDIRECTORIES
 
-	docs
+	doc
 

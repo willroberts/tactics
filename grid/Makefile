@@ -10,5 +10,5 @@ test_graphics:
 	go test -v -tags=graphics ./...
 
 docs:
-	@mkdir -p docs
-	godoc . > docs/godoc.txt
+	@mkdir -p doc
+	godoc github.com/willroberts/tactics/grid > doc/godoc.txt
