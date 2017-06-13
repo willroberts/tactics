@@ -8,3 +8,7 @@ test:
 
 test_graphics:
 	go test -v -tags=graphics ./...
+
+docs:
+	@mkdir -p docs
+	godoc . > docs/godoc.txt

@@ -1,0 +1,61 @@
+PACKAGE DOCUMENTATION
+
+package grid
+    import "."
+
+
+TYPES
+
+type Cell interface {
+    // Grid coordinates.
+    X() int
+    Y() int
+
+    // Spatial coordinates and properties within the window.
+    PosX() int32
+    PosY() int32
+    Rect() *sdl.Rect
+    Width() int
+    SetWidth(int)
+    Height() int
+    SetHeight(int)
+    Color() uint32
+    SetColor(uint32)
+
+    // Logical properties.
+    Contents() Occupier
+    SetContents(Occupier)
+    ClearContents()
+    IsOccupied() bool
+}
+    Cell is a container at a specific position inside a Grid.
+
+func NewCell(x, y, w, h int) Cell
+    NewCell initializes and returns a Cell.
+
+type Grid interface {
+    Width() int
+    Height() int
+
+    CellWidth() int
+    CellHeight() int
+
+    Cell(x, y int) Cell
+}
+    Grid is a two-dimensional array containing a game board. It has no
+    visual properties, and can be represented orthogonally or isometrically.
+
+func NewGrid(x, y, cellWidth, cellHeight int) Grid
+    NewGrid initializes and returns a Grid.
+
+type Occupier interface {
+    CanOccupy() bool
+}
+    Occupier is the common interface among anything which can occupy a cell
+    within a grid. To place objects in a cell, have your objects satisfy
+    this interface.
+
+SUBDIRECTORIES
+
+	docs
+
