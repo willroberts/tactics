@@ -18,16 +18,6 @@ func TestCell(t *testing.T) {
 		t.FailNow()
 	}
 
-	// Test reassignment of coordinates.
-	c.SetX(9)
-	if c.X() != 9 {
-		t.FailNow()
-	}
-	c.SetY(5)
-	if c.Y() != 5 {
-		t.FailNow()
-	}
-
 	// Test assignment of color.
 	var colorRed uint32 = 0xffff0000
 	c.SetColor(colorRed)

@@ -6,9 +6,7 @@ import "github.com/veandco/go-sdl2/sdl"
 type Cell interface {
 	// Grid coordinates.
 	X() int
-	SetX(int)
 	Y() int
-	SetY(int)
 
 	// Spatial coordinates and properties within the window.
 	PosX() int32
@@ -44,16 +42,8 @@ func (c *cell) X() int {
 	return c.x
 }
 
-func (c *cell) SetX(i int) {
-	c.x = i
-}
-
 func (c *cell) Y() int {
 	return c.y
-}
-
-func (c *cell) SetY(i int) {
-	c.y = i
 }
 
 func (c *cell) PosX() int32 {

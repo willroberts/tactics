@@ -10,7 +10,6 @@ type Grid interface {
 	CellHeight() int
 
 	Cell(x, y int) Cell
-	SetCell(x, y int, c Cell)
 }
 
 type grid struct {
@@ -40,12 +39,6 @@ func (g *grid) CellHeight() int {
 
 func (g *grid) Cell(x, y int) Cell {
 	return g.cells[x][y]
-}
-
-func (g *grid) SetCell(x, y int, c Cell) {
-	c.SetX(x)
-	c.SetY(y)
-	g.cells[x][y] = c
 }
 
 // NewGrid initializes and returns a Grid.
