@@ -47,7 +47,7 @@ func NewGrid(x, y, cellWidth, cellHeight int) Grid {
 	for i := 0; i < x; i++ {
 		row := make([]Cell, y)
 		for j := range row {
-			row[j] = NewCell(i, j, cellWidth, cellHeight)
+			row[j] = newCell(i, j, cellWidth, cellHeight)
 		}
 		cells[i] = row
 	}

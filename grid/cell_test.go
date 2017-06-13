@@ -4,7 +4,7 @@ import "testing"
 
 func TestCell(t *testing.T) {
 	// Test that creating a new cell produces the desired coordinates.
-	c := NewCell(1, 2, 20, 30)
+	c := newCell(1, 2, 20, 30)
 	if c.X() != 1 {
 		t.FailNow()
 	}

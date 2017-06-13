@@ -103,7 +103,6 @@ func (c *cell) IsOccupied() bool {
 	return c.contents != nil
 }
 
-// NewCell initializes and returns a Cell.
-func NewCell(x, y, w, h int) Cell {
+func newCell(x, y, w, h int) Cell {
 	return &cell{x: x, y: y, width: w, height: h}
 }
