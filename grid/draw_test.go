@@ -17,62 +17,45 @@ const (
 )
 
 func TestColorAssignment(t *testing.T) {
-	g := NewGrid(3, 3, 25, 25)
-	assignColors(g)
-	if g.Cell(0, 0).Color() != colorGreen {
+	if assignCheckerboardColor(0, 0) != colorGreen {
 		t.FailNow()
 	}
-	if g.Cell(0, 1).Color() != colorWhite {
+	if assignCheckerboardColor(0, 1) != colorWhite {
 		t.FailNow()
 	}
-	if g.Cell(0, 2).Color() != colorGreen {
+	if assignCheckerboardColor(0, 2) != colorGreen {
 		t.FailNow()
 	}
-	if g.Cell(1, 0).Color() != colorWhite {
+	if assignCheckerboardColor(1, 0) != colorWhite {
 		t.FailNow()
 	}
-	if g.Cell(1, 1).Color() != colorGreen {
+	if assignCheckerboardColor(1, 1) != colorGreen {
 		t.FailNow()
 	}
-	if g.Cell(1, 2).Color() != colorWhite {
-		t.FailNow()
-	}
-	if g.Cell(2, 0).Color() != colorGreen {
-		t.FailNow()
-	}
-	if g.Cell(2, 1).Color() != colorWhite {
-		t.FailNow()
-	}
-	if g.Cell(2, 2).Color() != colorGreen {
+	if assignCheckerboardColor(1, 2) != colorWhite {
 		t.FailNow()
 	}
 }
 
 func TestDrawing(t *testing.T) {
 	g := NewGrid(5, 5, 50, 50)
-	assignColors(g)
 	if err := drawGrid(g); err != nil {
 		t.FailNow()
 	}
 }
 
-// assignColors populates a grid's cells with a checkerboard color scheme.
-func assignColors(g Grid) {
-	for x := 0; x < g.Width(); x++ {
-		for y := 0; y < g.Height(); y++ {
-			if x%2 == 0 {
-				if y%2 == 0 {
-					g.Cell(x, y).SetColor(colorGreen)
-				} else {
-					g.Cell(x, y).SetColor(colorWhite)
-				}
-			} else {
-				if y%2 == 0 {
-					g.Cell(x, y).SetColor(colorWhite)
-				} else {
-					g.Cell(x, y).SetColor(colorGreen)
-				}
-			}
+func assignCheckerboardColor(x, y int) uint32 {
+	if x%2 == 0 {
+		if y%2 == 0 {
+			return colorGreen
+		} else {
+			return colorWhite
+		}
+	} else {
+		if y%2 == 0 {
+			return colorWhite
+		} else {
+			return colorGreen
 		}
 	}
 }
@@ -107,8 +90,9 @@ func drawGrid(g Grid) error {
 	// Draw every cell
 	for x := 0; x < g.Width(); x++ {
 		for y := 0; y < g.Height(); y++ {
-			c := g.Cell(x, y)
-			err = surface.FillRect(c.Rect(), c.Color())
+			rect := g.Cell(x, y).Rect()
+			color := assignCheckerboardColor(x, y)
+			err = surface.FillRect(rect, color)
 			if err != nil {
 				return err
 			}

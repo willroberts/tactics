@@ -11,11 +11,9 @@ type Cell interface {
 	// Spatial coordinates and properties within the window.
 	PosX() int32
 	PosY() int32
-	Rect() *sdl.Rect
 	Width() int
 	Height() int
-	Color() uint32
-	SetColor(uint32)
+	Rect() *sdl.Rect
 
 	// Logical properties.
 	Contents() Occupier
@@ -32,7 +30,6 @@ type cell struct {
 	y        int
 	width    int
 	height   int
-	color    uint32
 	contents Occupier
 }
 
@@ -67,14 +64,6 @@ func (c *cell) Width() int {
 
 func (c *cell) Height() int {
 	return c.height
-}
-
-func (c *cell) Color() uint32 {
-	return c.color
-}
-
-func (c *cell) SetColor(i uint32) {
-	c.color = i
 }
 
 func (c *cell) Contents() Occupier {
