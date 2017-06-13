@@ -19,6 +19,7 @@ type Cell interface {
     Width() int
     Height() int
     Elevation() int
+    SetElevation(int)
     Rect() *sdl.Rect
 
     // Logical properties.
