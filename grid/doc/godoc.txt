@@ -16,11 +16,9 @@ type Cell interface {
     // Spatial coordinates and properties within the window.
     PosX() int32
     PosY() int32
-    Rect() *sdl.Rect
     Width() int
     Height() int
-    Color() uint32
-    SetColor(uint32)
+    Rect() *sdl.Rect
 
     // Logical properties.
     Contents() Occupier
