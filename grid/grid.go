@@ -9,10 +9,9 @@ type Grid interface {
 }
 
 type grid struct {
-	width    int
-	height   int
-	cells    [][]Cell
-	cellSize int
+	width  int
+	height int
+	cells  [][]Cell
 }
 
 func (g *grid) Width() int {
@@ -31,23 +30,19 @@ func (g *grid) SetCell(x, y int, c Cell) {
 	g.cells[x][y] = c
 }
 
-func NewGrid(x, y, size int) Grid {
-	// Create rows.
+func NewGrid(x, y int) Grid {
 	cells := make([][]Cell, x)
-
-	// Create columns.
 	for i := 0; i < x; i++ {
 		row := make([]Cell, y)
 		for j := range row {
-			row[j] = NewCell()
+			row[j] = NewCell(i, j)
 		}
 		cells[i] = row
 	}
 
 	return &grid{
-		width:    x,
-		height:   y,
-		cells:    cells,
-		cellSize: size,
+		width:  x,
+		height: y,
+		cells:  cells,
 	}
 }
