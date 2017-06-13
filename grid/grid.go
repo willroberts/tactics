@@ -41,11 +41,13 @@ func (g *grid) Cell(x, y int) Cell {
 	return g.cells[x][y]
 }
 
-// NewGrid initializes and returns a Grid.
-func NewGrid(x, y, cellWidth, cellHeight int) Grid {
-	cells := make([][]Cell, x)
-	for i := 0; i < x; i++ {
-		row := make([]Cell, y)
+// NewGrid initializes and returns a Grid. `width` and `height` specify the
+// dimensions of the grid itself. `cellWidth` and `cellHeight` specify the
+// dimensions of cells within the grid.
+func NewGrid(width, height, cellWidth, cellHeight int) Grid {
+	cells := make([][]Cell, width)
+	for i := 0; i < width; i++ {
+		row := make([]Cell, height)
 		for j := range row {
 			row[j] = newCell(i, j, cellWidth, cellHeight)
 		}
@@ -53,8 +55,8 @@ func NewGrid(x, y, cellWidth, cellHeight int) Grid {
 	}
 
 	return &grid{
-		width:      x,
-		height:     y,
+		width:      width,
+		height:     height,
 		cells:      cells,
 		cellWidth:  cellWidth,
 		cellHeight: cellHeight,
