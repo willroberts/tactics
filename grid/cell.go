@@ -1,11 +1,17 @@
 package grid
 
+import "github.com/veandco/go-sdl2/sdl"
+
 // Cell is a container at a specific position inside a Grid.
 type Cell interface {
 	X() int
 	SetX(int)
 	Y() int
 	SetY(int)
+
+	PosX() int32
+	PosY() int32
+	Rect() *sdl.Rect
 
 	Width() int
 	SetWidth(int)
@@ -48,6 +54,23 @@ func (c *cell) Y() int {
 
 func (c *cell) SetY(i int) {
 	c.y = i
+}
+
+func (c *cell) PosX() int32 {
+	return int32(0 + (c.x * c.width))
+}
+
+func (c *cell) PosY() int32 {
+	return int32(0 + (c.y * c.height))
+}
+
+func (c *cell) Rect() *sdl.Rect {
+	return &sdl.Rect{
+		X: c.PosX(),
+		Y: c.PosY(),
+		W: int32(c.width),
+		H: int32(c.height),
+	}
 }
 
 func (c *cell) Width() int {
