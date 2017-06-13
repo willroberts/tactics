@@ -4,10 +4,10 @@ check:
 	golint ./...
 
 test:
-	go test -v -coverprofile
+	go test -v -coverprofile cover.out
 
 test_graphics:
-	go test -v -tags=graphics -coverprofile
+	go test -v -tags=graphics -coverprofile cover.out
 
 coverage:
 	go test -v -coverprofile cover.out
