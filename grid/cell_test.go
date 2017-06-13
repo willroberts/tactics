@@ -27,4 +27,10 @@ func TestCell(t *testing.T) {
 	if c.Y() != 5 {
 		t.FailNow()
 	}
+
+	// Test assignment of color.
+	c.SetColor(ColorRed)
+	if c.Color() != ColorRed {
+		t.FailNow()
+	}
 }

@@ -5,6 +5,7 @@ orthogonal or isometric orientation.
 
 ## to do
 
+* consider 1-index for grid X and Y values instead of 0-index
 * unit tests
 * code coverage
 * go report card

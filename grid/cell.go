@@ -12,6 +12,9 @@ type Cell interface {
 	Height() int
 	SetHeight(int)
 
+	Color() uint32
+	SetColor(uint32)
+
 	// Methods for retrieving and setting Rect and Texture.
 	// Methods for drawing.
 
@@ -28,6 +31,7 @@ type cell struct {
 	y      int
 	width  int
 	height int
+	color  uint32
 }
 
 func (c *cell) X() int {
@@ -60,6 +64,14 @@ func (c *cell) Height() int {
 
 func (c *cell) SetHeight(i int) {
 	c.height = i
+}
+
+func (c *cell) Color() uint32 {
+	return c.color
+}
+
+func (c *cell) SetColor(i uint32) {
+	c.color = i
 }
 
 // NewCell initializes and returns a Cell.
