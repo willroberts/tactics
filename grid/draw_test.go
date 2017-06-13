@@ -13,7 +13,7 @@ const (
 	ColorGreen uint32 = 0xff00ff00
 	ColorRed   uint32 = 0xffff0000
 
-	WindowDuration uint32 = 1000 // Milliseconds.
+	WindowDuration uint32 = 2000 // Milliseconds.
 )
 
 func TestColorAssignment(t *testing.T) {
@@ -38,7 +38,7 @@ func TestColorAssignment(t *testing.T) {
 }
 
 func TestDrawing(t *testing.T) {
-	g := NewGrid(5, 5, 50, 50)
+	g := NewGrid(9, 5, 50, 50)
 	if err := drawGrid(g); err != nil {
 		t.FailNow()
 	}
