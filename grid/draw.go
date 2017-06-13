@@ -33,7 +33,10 @@ func drawGrid(g Grid) error {
 	for x := 0; x < g.Width(); x++ {
 		for y := 0; y < g.Height(); y++ {
 			c := g.Cell(x, y)
-			surface.FillRect(c.Rect(), c.Color())
+			err = surface.FillRect(c.Rect(), c.Color())
+			if err != nil {
+				return err
+			}
 		}
 	}
 

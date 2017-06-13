@@ -1,9 +1,9 @@
 package grid
 
 const (
-	ColorWhite uint32 = 0xffffffff
-	ColorGreen uint32 = 0xff00ff00
-	ColorRed   uint32 = 0xffff0000
+	colorWhite uint32 = 0xffffffff
+	colorGreen uint32 = 0xff00ff00
+	colorRed   uint32 = 0xffff0000
 )
 
 // AssignColors creates a checkerboard pattern in the grid, like below:
@@ -16,15 +16,15 @@ func AssignColors(g Grid) {
 		for y := 0; y < g.Height(); y++ {
 			if x%2 == 0 {
 				if y%2 == 0 {
-					g.Cell(x, y).SetColor(ColorGreen)
+					g.Cell(x, y).SetColor(colorGreen)
 				} else {
-					g.Cell(x, y).SetColor(ColorWhite)
+					g.Cell(x, y).SetColor(colorWhite)
 				}
 			} else {
 				if y%2 == 0 {
-					g.Cell(x, y).SetColor(ColorWhite)
+					g.Cell(x, y).SetColor(colorWhite)
 				} else {
-					g.Cell(x, y).SetColor(ColorGreen)
+					g.Cell(x, y).SetColor(colorGreen)
 				}
 			}
 		}
