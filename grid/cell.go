@@ -3,9 +3,13 @@ package grid
 type Cell interface {
 	X() int
 	SetX(int)
-
 	Y() int
 	SetY(int)
+
+	Width() int
+	SetWidth(int)
+	Height() int
+	SetHeight(int)
 
 	// Methods for retrieving and setting Rect and Texture.
 	// Methods for drawing.
@@ -19,8 +23,10 @@ type Cell interface {
 }
 
 type cell struct {
-	x int
-	y int
+	x      int
+	y      int
+	width  int
+	height int
 }
 
 func (c *cell) X() int {
@@ -39,6 +45,22 @@ func (c *cell) SetY(i int) {
 	c.y = i
 }
 
-func NewCell(x, y int) Cell {
-	return &cell{x: x, y: y}
+func (c *cell) Width() int {
+	return c.width
+}
+
+func (c *cell) SetWidth(i int) {
+	c.width = i
+}
+
+func (c *cell) Height() int {
+	return c.height
+}
+
+func (c *cell) SetHeight(i int) {
+	c.height = i
+}
+
+func NewCell(x, y, w, h int) Cell {
+	return &cell{x: x, y: y, width: w, height: h}
 }

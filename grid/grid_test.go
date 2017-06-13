@@ -7,15 +7,23 @@ import (
 const (
 	GRID_WIDTH  int = 20
 	GRID_HEIGHT int = 10
+	CELL_WIDTH  int = 30
+	CELL_HEIGHT int = 40
 )
 
 func TestGrid(t *testing.T) {
 	// Test that creating a grid produces the desired width and height.
-	g := NewGrid(GRID_WIDTH, GRID_HEIGHT)
+	g := NewGrid(GRID_WIDTH, GRID_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
 	if g.Width() != GRID_WIDTH {
 		t.FailNow()
 	}
 	if g.Height() != GRID_HEIGHT {
+		t.FailNow()
+	}
+	if g.CellWidth() != CELL_WIDTH {
+		t.FailNow()
+	}
+	if g.CellHeight() != CELL_HEIGHT {
 		t.FailNow()
 	}
 

@@ -4,11 +4,17 @@ import "testing"
 
 func TestCell(t *testing.T) {
 	// Test that creating a new cell produces the desired coordinates.
-	c := NewCell(1, 2)
+	c := NewCell(1, 2, 20, 30)
 	if c.X() != 1 {
 		t.FailNow()
 	}
 	if c.Y() != 2 {
+		t.FailNow()
+	}
+	if c.Width() != 20 {
+		t.FailNow()
+	}
+	if c.Height() != 30 {
 		t.FailNow()
 	}
 

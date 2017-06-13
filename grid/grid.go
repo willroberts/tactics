@@ -4,6 +4,9 @@ type Grid interface {
 	Width() int
 	Height() int
 
+	CellWidth() int
+	CellHeight() int
+
 	Cell(x, y int) Cell
 	SetCell(x, y int, c Cell)
 }
@@ -11,7 +14,10 @@ type Grid interface {
 type grid struct {
 	width  int
 	height int
-	cells  [][]Cell
+
+	cells      [][]Cell
+	cellWidth  int
+	cellHeight int
 }
 
 func (g *grid) Width() int {
@@ -20,6 +26,14 @@ func (g *grid) Width() int {
 
 func (g *grid) Height() int {
 	return g.height
+}
+
+func (g *grid) CellWidth() int {
+	return g.cellWidth
+}
+
+func (g *grid) CellHeight() int {
+	return g.cellHeight
 }
 
 func (g *grid) Cell(x, y int) Cell {
@@ -32,19 +46,21 @@ func (g *grid) SetCell(x, y int, c Cell) {
 	g.cells[x][y] = c
 }
 
-func NewGrid(x, y int) Grid {
+func NewGrid(x, y, cellWidth, cellHeight int) Grid {
 	cells := make([][]Cell, x)
 	for i := 0; i < x; i++ {
 		row := make([]Cell, y)
 		for j := range row {
-			row[j] = NewCell(i, j)
+			row[j] = NewCell(i, j, cellWidth, cellHeight)
 		}
 		cells[i] = row
 	}
 
 	return &grid{
-		width:  x,
-		height: y,
-		cells:  cells,
+		width:      x,
+		height:     y,
+		cells:      cells,
+		cellWidth:  cellWidth,
+		cellHeight: cellHeight,
 	}
 }
