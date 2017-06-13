@@ -7,8 +7,6 @@ import (
 const (
 	GridWidth  int = 20
 	GridHeight int = 10
-	CellWidth  int = 30
-	CellHeight int = 40
 )
 
 func TestGrid(t *testing.T) {

@@ -14,6 +14,7 @@ type Cell interface {
 	Width() int
 	Height() int
 	Elevation() int
+	SetElevation(int)
 	Rect() *sdl.Rect
 
 	// Logical properties.
@@ -69,6 +70,10 @@ func (c *cell) Height() int {
 
 func (c *cell) Elevation() int {
 	return c.elevation
+}
+
+func (c *cell) SetElevation(i int) {
+	c.elevation = i
 }
 
 func (c *cell) Contents() Occupier {
