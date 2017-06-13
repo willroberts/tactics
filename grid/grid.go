@@ -27,6 +27,8 @@ func (g *grid) Cell(x, y int) Cell {
 }
 
 func (g *grid) SetCell(x, y int, c Cell) {
+	c.SetX(x)
+	c.SetY(y)
 	g.cells[x][y] = c
 }
 

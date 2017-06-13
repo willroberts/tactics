@@ -1,46 +1,42 @@
 package grid
 
-import "github.com/veandco/go-sdl2/sdl"
-
 type Cell interface {
-	// Phase 1 (Display):
-	//Rect() *sdl.Rect
-	//Texture() *sdl.Texture
-	//SetTexture(t *sdl.Texture)
-	//Draw()
+	X() int
+	SetX(int)
 
-	// Phase 2 (Logic):
+	Y() int
+	SetY(int)
+
+	// Methods for retrieving and setting Rect and Texture.
+	// Methods for drawing.
+
 	// Methods for showing contents (player, NPCs, items, etc).
 	// Methods for adding new contents.
 	// Methods for deleting and clearing contents.
 	// Methods for walkability (false for boulders, NPCs, etc).
 
-	// Phase 3 (Isometric):
-	// Methods for getting and setting elevation.
+	// Methods for getting and setting elevation (isometric).
 }
 
 type cell struct {
 	x int
 	y int
-
-	rect    *sdl.Rect
-	texture *sdl.Texture
 }
 
-func (c *cell) Rect() *sdl.Rect {
-	return c.rect
+func (c *cell) X() int {
+	return c.x
 }
 
-func (c *cell) Texture() *sdl.Texture {
-	return c.texture
+func (c *cell) SetX(i int) {
+	c.x = i
 }
 
-func (c *cell) SetTexture(t *sdl.Texture) {
-	c.texture = t
+func (c *cell) Y() int {
+	return c.y
 }
 
-func (c *cell) Draw() {
-	return
+func (c *cell) SetY(i int) {
+	c.y = i
 }
 
 func NewCell(x, y int) Cell {
