@@ -1,5 +1,7 @@
 package grid
 
+// Grid is a two-dimensional array containing a game board. It has no visual
+// properties, and can be represented orthogonally or isometrically.
 type Grid interface {
 	Width() int
 	Height() int
@@ -46,6 +48,7 @@ func (g *grid) SetCell(x, y int, c Cell) {
 	g.cells[x][y] = c
 }
 
+// NewGrid initializes and returns a Grid.
 func NewGrid(x, y, cellWidth, cellHeight int) Grid {
 	cells := make([][]Cell, x)
 	for i := 0; i < x; i++ {

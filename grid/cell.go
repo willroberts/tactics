@@ -1,5 +1,6 @@
 package grid
 
+// Cell is a container at a specific position inside a Grid.
 type Cell interface {
 	X() int
 	SetX(int)
@@ -61,6 +62,7 @@ func (c *cell) SetHeight(i int) {
 	c.height = i
 }
 
+// NewCell initializes and returns a Cell.
 func NewCell(x, y, w, h int) Cell {
 	return &cell{x: x, y: y, width: w, height: h}
 }
