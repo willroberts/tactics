@@ -18,6 +18,7 @@ type Cell interface {
     PosY() int32
     Width() int
     Height() int
+    Elevation() int
     Rect() *sdl.Rect
 
     // Logical properties.
@@ -37,8 +38,8 @@ type Grid interface {
 
     Cell(x, y int) Cell
 }
-    Grid is a two-dimensional array containing a game board. It has no
-    visual properties, and can be represented orthogonally or isometrically.
+    Grid is a two-dimensional array containing a game board which can be
+    represented orthogonally or isometrically.
 
 func NewGrid(x, y, cellWidth, cellHeight int) Grid
     NewGrid initializes and returns a Grid.
