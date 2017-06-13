@@ -1,7 +1,7 @@
 package grid
 
-// Grid is a two-dimensional array containing a game board. It has no visual
-// properties, and can be represented orthogonally or isometrically.
+// Grid is a two-dimensional array containing a game board which can be
+// represented orthogonally or isometrically.
 type Grid interface {
 	Width() int
 	Height() int
