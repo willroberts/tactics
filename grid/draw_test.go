@@ -90,9 +90,22 @@ func drawGrid(g Grid) error {
 	// Draw every cell
 	for x := 0; x < g.Width(); x++ {
 		for y := 0; y < g.Height(); y++ {
-			rect := g.Cell(x, y).Rect()
+			// Draw a black outline.
+			outer := g.Cell(x, y).Rect()
+			err = surface.FillRect(outer, 0xff000000)
+			if err != nil {
+				return err
+			}
+
+			// Draw the colored cell.
+			inner := &sdl.Rect{
+				X: outer.X + 2,
+				Y: outer.Y + 2,
+				W: outer.W - 4,
+				H: outer.H - 4,
+			}
 			color := assignCheckerboardColor(x, y)
-			err = surface.FillRect(rect, color)
+			err = surface.FillRect(inner, color)
 			if err != nil {
 				return err
 			}
