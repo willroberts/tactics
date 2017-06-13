@@ -34,4 +34,20 @@ func TestCell(t *testing.T) {
 	if c.Color() != colorRed {
 		t.FailNow()
 	}
+
+	// Test assignment, retrieval, and clearing of cell contents.
+	if o := c.Contents(); o != nil {
+		t.FailNow()
+	}
+
+	occ := &occupier{}
+	c.SetContents(occ)
+	if o := c.Contents(); o != occ {
+		t.FailNow()
+	}
+
+	c.ClearContents()
+	if o := c.Contents(); o != nil {
+		t.FailNow()
+	}
 }

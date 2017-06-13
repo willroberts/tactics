@@ -4,40 +4,40 @@ import "github.com/veandco/go-sdl2/sdl"
 
 // Cell is a container at a specific position inside a Grid.
 type Cell interface {
+	// Grid coordinates.
 	X() int
 	SetX(int)
 	Y() int
 	SetY(int)
 
+	// Spatial coordinates and properties within the window.
 	PosX() int32
 	PosY() int32
 	Rect() *sdl.Rect
-
 	Width() int
 	SetWidth(int)
 	Height() int
 	SetHeight(int)
-
 	Color() uint32
 	SetColor(uint32)
 
-	// Methods for retrieving and setting Rect and Texture.
-	// Methods for drawing.
+	// Logical properties.
+	Contents() Occupier
+	SetContents(Occupier)
+	ClearContents()
+	IsOccupied() bool
 
-	// Methods for showing contents (player, NPCs, items, etc).
-	// Methods for adding new contents.
-	// Methods for deleting and clearing contents.
-	// Methods for walkability (false for boulders, NPCs, etc).
-
+	// Methods for retrieving and setting Texture.
 	// Methods for getting and setting elevation (isometric).
 }
 
 type cell struct {
-	x      int
-	y      int
-	width  int
-	height int
-	color  uint32
+	x        int
+	y        int
+	width    int
+	height   int
+	color    uint32
+	contents Occupier
 }
 
 func (c *cell) X() int {
@@ -95,6 +95,22 @@ func (c *cell) Color() uint32 {
 
 func (c *cell) SetColor(i uint32) {
 	c.color = i
+}
+
+func (c *cell) Contents() Occupier {
+	return c.contents
+}
+
+func (c *cell) SetContents(o Occupier) {
+	c.contents = o
+}
+
+func (c *cell) ClearContents() {
+	c.contents = nil
+}
+
+func (c *cell) IsOccupied() bool {
+	return c.contents != nil
 }
 
 // NewCell initializes and returns a Cell.
