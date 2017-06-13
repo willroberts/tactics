@@ -9,30 +9,30 @@ import (
 )
 
 const (
-	colorWhite uint32 = 0xffffffff
-	colorGreen uint32 = 0xff00ff00
-	colorRed   uint32 = 0xffff0000
+	ColorWhite uint32 = 0xffffffff
+	ColorGreen uint32 = 0xff00ff00
+	ColorRed   uint32 = 0xffff0000
 
-	windowDuration uint32 = 3000
+	WindowDuration uint32 = 1000 // Milliseconds.
 )
 
 func TestColorAssignment(t *testing.T) {
-	if assignCheckerboardColor(0, 0) != colorGreen {
+	if assignCheckerboardColor(0, 0) != ColorGreen {
 		t.FailNow()
 	}
-	if assignCheckerboardColor(0, 1) != colorWhite {
+	if assignCheckerboardColor(0, 1) != ColorWhite {
 		t.FailNow()
 	}
-	if assignCheckerboardColor(0, 2) != colorGreen {
+	if assignCheckerboardColor(0, 2) != ColorGreen {
 		t.FailNow()
 	}
-	if assignCheckerboardColor(1, 0) != colorWhite {
+	if assignCheckerboardColor(1, 0) != ColorWhite {
 		t.FailNow()
 	}
-	if assignCheckerboardColor(1, 1) != colorGreen {
+	if assignCheckerboardColor(1, 1) != ColorGreen {
 		t.FailNow()
 	}
-	if assignCheckerboardColor(1, 2) != colorWhite {
+	if assignCheckerboardColor(1, 2) != ColorWhite {
 		t.FailNow()
 	}
 }
@@ -47,15 +47,15 @@ func TestDrawing(t *testing.T) {
 func assignCheckerboardColor(x, y int) uint32 {
 	if x%2 == 0 {
 		if y%2 == 0 {
-			return colorGreen
+			return ColorGreen
 		} else {
-			return colorWhite
+			return ColorWhite
 		}
 	} else {
 		if y%2 == 0 {
-			return colorWhite
+			return ColorWhite
 		} else {
-			return colorGreen
+			return ColorGreen
 		}
 	}
 }
@@ -116,7 +116,7 @@ func drawGrid(g Grid) error {
 		return err
 	}
 
-	sdl.Delay(windowDuration)
+	sdl.Delay(WindowDuration)
 
 	return nil
 }
