@@ -39,8 +39,10 @@ type Grid interface {
     Grid is a two-dimensional array containing a game board which can be
     represented orthogonally or isometrically.
 
-func NewGrid(x, y, cellWidth, cellHeight int) Grid
-    NewGrid initializes and returns a Grid.
+func NewGrid(width, height, cellWidth, cellHeight int) Grid
+    NewGrid initializes and returns a Grid. `width` and `height` specify the
+    dimensions of the grid itself. `cellWidth` and `cellHeight` specify the
+    dimensions of cells within the grid.
 
 type Occupier interface {
     CanOccupy() bool
