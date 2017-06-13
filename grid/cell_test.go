@@ -2,6 +2,8 @@ package grid
 
 import (
 	"testing"
+
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 const (
@@ -68,6 +70,13 @@ func TestCell(t *testing.T) {
 	c.ClearContents()
 	o = c.Contents()
 	if o != nil || c.IsOccupied() {
+		t.FailNow()
+	}
+
+	// Test texture setter/getter.
+	tex := &sdl.Texture{}
+	c.SetTexture(tex)
+	if c.Texture() != tex {
 		t.FailNow()
 	}
 }

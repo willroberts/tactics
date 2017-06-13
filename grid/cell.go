@@ -4,11 +4,8 @@ import "github.com/veandco/go-sdl2/sdl"
 
 // Cell is a container at a specific position inside a Grid.
 type Cell interface {
-	// Grid coordinates.
 	X() int
 	Y() int
-
-	// Spatial coordinates and properties within the window.
 	PosX() int32
 	PosY() int32
 	Width() int
@@ -16,14 +13,12 @@ type Cell interface {
 	Elevation() int
 	SetElevation(int)
 	Rect() *sdl.Rect
-
-	// Logical properties.
+	Texture() *sdl.Texture
+	SetTexture(*sdl.Texture)
 	Contents() Occupier
 	SetContents(Occupier)
 	ClearContents()
 	IsOccupied() bool
-
-	// Methods for retrieving and setting Texture.
 }
 
 type cell struct {
@@ -32,6 +27,7 @@ type cell struct {
 	width     int
 	height    int
 	elevation int
+	texture   *sdl.Texture
 	contents  Occupier
 }
 
@@ -58,6 +54,14 @@ func (c *cell) Rect() *sdl.Rect {
 		W: int32(c.width),
 		H: int32(c.height),
 	}
+}
+
+func (c *cell) Texture() *sdl.Texture {
+	return c.texture
+}
+
+func (c *cell) SetTexture(t *sdl.Texture) {
+	c.texture = t
 }
 
 func (c *cell) Width() int {
