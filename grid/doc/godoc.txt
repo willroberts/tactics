@@ -9,11 +9,8 @@ package grid
 TYPES
 
 type Cell interface {
-    // Grid coordinates.
     X() int
     Y() int
-
-    // Spatial coordinates and properties within the window.
     PosX() int32
     PosY() int32
     Width() int
@@ -21,8 +18,8 @@ type Cell interface {
     Elevation() int
     SetElevation(int)
     Rect() *sdl.Rect
-
-    // Logical properties.
+    Texture() *sdl.Texture
+    SetTexture(*sdl.Texture)
     Contents() Occupier
     SetContents(Occupier)
     ClearContents()
