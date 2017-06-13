@@ -29,6 +29,7 @@ func TestCell(t *testing.T) {
 	}
 
 	// Test assignment of color.
+	var colorRed uint32 = 0xffff0000
 	c.SetColor(colorRed)
 	if c.Color() != colorRed {
 		t.FailNow()
