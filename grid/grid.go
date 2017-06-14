@@ -40,6 +40,7 @@ func (g *grid) CellHeight() int {
 	return g.cellHeight
 }
 
+// FIXME: Have Cells() populate and return a channel.
 func (g *grid) Cells() [][]Cell {
 	return g.cells
 }
