@@ -49,12 +49,10 @@ func main() {
 					log.Fatalln("error drawing cell:", err)
 				}
 			}
-
 		}
 
 		if err = eng.UpdateSurface(); err != nil {
 			log.Fatalln("error updating surface:", err)
-
 		}
 
 		eng.PauseRendering(frameTime)
