@@ -38,14 +38,25 @@ func main() {
 	}
 
 	for {
-		eng.ClearScreen()
+		if err = eng.ClearScreen(); err != nil {
+			log.Fatalln("error clearing screen:", err)
+		}
+
 		// FIXME: Use a channel for iteration.
 		for _, col := range g.Cells() {
 			for _, cell := range col {
-				eng.DrawRect(cell.Rect(), cell.Color())
+				if err = eng.DrawRect(cell.Rect(), cell.Color()); err != nil {
+					log.Fatalln("error drawing cell:", err)
+				}
 			}
+
 		}
-		eng.UpdateSurface()
+
+		if err = eng.UpdateSurface(); err != nil {
+			log.Fatalln("error updating surface:", err)
+
+		}
+
 		eng.PauseRendering(frameTime)
 	}
 }

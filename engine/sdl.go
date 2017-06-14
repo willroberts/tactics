@@ -4,6 +4,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+// SDLEngine is our interface to SDL2.
 type SDLEngine interface {
 	Window() *sdl.Window
 	Surface() *sdl.Surface
@@ -53,6 +54,8 @@ func (s *sdlengine) DestroyWindow() {
 	s.window.Destroy()
 }
 
+// NewSDLEngine creates an SDL window, surface, and renderer with the given
+// properties. Implements and returns the SDLEngine interface.
 func NewSDLEngine(title string, width int, height int) (SDLEngine, error) {
 	s := &sdlengine{}
 

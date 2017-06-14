@@ -6,12 +6,12 @@ import (
 )
 
 const (
-	DefaultUnitName string = "Unit"
+	defaultUnitName string = "Unit"
 
-	AttackMin int = 1
-	AttackMax int = 5
-	LifeMin   int = 1
-	LifeMax   int = 8
+	attackMin int = 1
+	attackMax int = 5
+	lifeMin   int = 1
+	lifeMax   int = 8
 )
 
 func init() {
@@ -35,10 +35,10 @@ type unit struct {
 // NewRandomizedUnit creates new unit with randomly-generated attributes.
 func NewRandomizedUnit() Unit {
 	u := unit{}
-	attack := uint(rand.Intn(AttackMax) + AttackMin)
-	life := uint(rand.Intn(LifeMax) + LifeMin)
+	attack := uint(rand.Intn(attackMax) + attackMin)
+	life := uint(rand.Intn(lifeMax) + lifeMin)
 
-	u.Name = DefaultUnitName
+	u.Name = defaultUnitName
 	u.BaseAttack = attack
 	u.CurrentAttack = attack
 	u.BaseLife = life

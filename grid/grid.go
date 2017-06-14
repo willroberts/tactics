@@ -53,7 +53,7 @@ func (g *grid) Cell(x, y int) Cell {
 // pattern.
 func (g *grid) Checkerboard(color1, color2 uint32) {
 	for x, col := range g.cells {
-		for y, cell := range col {
+		for y := range col {
 			g.cells[x][y].SetColor(checkerColor(color1, color2, x, y))
 		}
 	}
@@ -65,15 +65,11 @@ func checkerColor(color1, color2 uint32, x, y int) uint32 {
 	if x%2 == 0 {
 		if y%2 == 0 {
 			return color1
-		} else {
-			return color2
 		}
-	} else {
-		if y%2 == 0 {
-			return color2
-		} else {
-			return color1
-		}
+		return color2
+	}
+	if y%2 == 0 {
+		return color2
 	}
 	return color1
 }
