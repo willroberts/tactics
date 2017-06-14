@@ -9,7 +9,10 @@ type Grid interface {
 	CellWidth() int
 	CellHeight() int
 
+	Cells() [][]Cell
 	Cell(x, y int) Cell
+
+	Checkerboard(color1, color2 uint32)
 }
 
 type grid struct {
@@ -37,8 +40,41 @@ func (g *grid) CellHeight() int {
 	return g.cellHeight
 }
 
+func (g *grid) Cells() [][]Cell {
+	return g.cells
+}
+
 func (g *grid) Cell(x, y int) Cell {
 	return g.cells[x][y]
+}
+
+// Checkerboard fills a grid's cells to create a checkerboard
+// pattern.
+func (g *grid) Checkerboard(color1, color2 uint32) {
+	for x, col := range g.cells {
+		for y, cell := range col {
+			g.cells[x][y].SetColor(checkerColor(color1, color2, x, y))
+		}
+	}
+}
+
+// checkerColor is a helper function for determining which color
+// a cell should be, based on its coordinates.
+func checkerColor(color1, color2 uint32, x, y int) uint32 {
+	if x%2 == 0 {
+		if y%2 == 0 {
+			return color1
+		} else {
+			return color2
+		}
+	} else {
+		if y%2 == 0 {
+			return color2
+		} else {
+			return color1
+		}
+	}
+	return color1
 }
 
 // NewGrid initializes and returns a Grid. `width` and `height` specify the
