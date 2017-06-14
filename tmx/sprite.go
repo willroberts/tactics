@@ -1,10 +1,16 @@
 package tmx
 
 import (
+	"bufio"
+	"fmt"
 	"image"
 	"image/png"
 	"os"
 )
+
+func init() {
+	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
+}
 
 type spritesheet struct {
 	image  image.Image
@@ -37,7 +43,8 @@ func (s *spritesheet) LoadImage(filename string) error {
 	if err != nil {
 		return err
 	}
-	i, err := png.Decode(f)
+	defer f.Close()
+	i, _, err := image.Decode(f)
 	if err != nil {
 		return err
 	}
@@ -58,10 +65,35 @@ func (s *spritesheet) FromTileset(filename string) error {
 	return nil
 }
 
-func (s *spritesheet) Cut() {
+func (s *spritesheet) Cut() error {
+	// Read original image.
+	bounds := s.image.Bounds()
+	rgba := image.NewRGBA(bounds)
 	for x := 0; x < s.width; x += s.spriteWidth {
 		for y := 0; y < s.height; y += s.spriteHeight {
+			subrect := image.Rectangle{
+				Min: image.Point{x, y},
+				Max: image.Point{x + s.spriteWidth, y + s.spriteHeight},
+			}
+			subimage := rgba.SubImage(subrect)
+			s.sprites = append(s.sprites, subimage)
 		}
 	}
-	s.sprites = []image.Image{}
+
+	// Write new images.
+	for i, s := range s.sprites {
+		f, err := os.Create(fmt.Sprintf("testassets/%d.png", i))
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+		w := bufio.NewWriter(f)
+		err = png.Encode(w, s)
+		if err != nil {
+			return err
+		}
+		w.Flush()
+	}
+
+	return nil
 }
