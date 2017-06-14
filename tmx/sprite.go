@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/oliamb/cutter"
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 func init() {
@@ -84,4 +85,38 @@ func (s *spritesheet) Cut() {
 			s.sprites = append(s.sprites, sub)
 		}
 	}
+}
+
+func (s *spritesheet) ImgToTexture() *sdl.Texture {
+	return &sdl.Texture{}
+	/* Borrowed example code from go-sdl2/img.
+	// Loads a PNG file, returning *sdl.Surface.
+	// Then converts *sdl.Surface to *sdl.Texture.
+	// How can I create *sdl.Texture from image.Image?
+	// Draws *sdl.Texture with renderer.Copy().
+	image, err := img.Load(imageName)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to load PNG: %s\n", err)
+		return 3
+	}
+	defer image.Free()
+
+	texture, err = renderer.CreateTextureFromSurface(image)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
+		return 4
+	}
+	defer texture.Destroy()
+
+	src = sdl.Rect{0, 0, 512, 512}
+	dst = sdl.Rect{100, 50, 512, 512}
+
+	renderer.Clear()
+	renderer.SetDrawColor(255, 0, 0, 255)
+	renderer.FillRect(&sdl.Rect{0, 0, int32(winWidth), int32(winHeight)})
+	renderer.Copy(texture, &src, &dst)
+	renderer.Present()
+
+	sdl.Delay(2000)
+	*/
 }
