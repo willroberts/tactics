@@ -8,17 +8,21 @@ import "github.com/veandco/go-sdl2/sdl"
 type Cell interface {
 	X() int
 	Y() int
+
 	PosX() int32
 	PosY() int32
 	Width() int
 	Height() int
 	Rect() *sdl.Rect
+
 	Color() uint32
 	SetColor(uint32)
 	Texture() *sdl.Texture
 	SetTexture(*sdl.Texture)
+
 	Elevation() int
 	SetElevation(int)
+
 	Contents() Occupier
 	SetContents(Occupier)
 	ClearContents()
@@ -45,11 +49,11 @@ func (c *cell) Y() int {
 }
 
 func (c *cell) PosX() int32 {
-	return int32(0 + (c.x * c.width))
+	return int32(c.x * c.width)
 }
 
 func (c *cell) PosY() int32 {
-	return int32(0 + (c.y * c.height))
+	return int32(c.y * c.height)
 }
 
 func (c *cell) Rect() *sdl.Rect {
