@@ -12,11 +12,13 @@ type Cell interface {
 	PosY() int32
 	Width() int
 	Height() int
-	Elevation() int
-	SetElevation(int)
 	Rect() *sdl.Rect
+	Color() uint32
+	SetColor(uint32)
 	Texture() *sdl.Texture
 	SetTexture(*sdl.Texture)
+	Elevation() int
+	SetElevation(int)
 	Contents() Occupier
 	SetContents(Occupier)
 	ClearContents()
@@ -28,8 +30,9 @@ type cell struct {
 	y         int
 	width     int
 	height    int
-	elevation int
+	color     uint32
 	texture   *sdl.Texture
+	elevation int
 	contents  Occupier
 }
 
@@ -56,6 +59,14 @@ func (c *cell) Rect() *sdl.Rect {
 		W: int32(c.width),
 		H: int32(c.height),
 	}
+}
+
+func (c *cell) Color() uint32 {
+	return c.color
+}
+
+func (c *cell) SetColor(color uint32) {
+	c.color = color
 }
 
 func (c *cell) Texture() *sdl.Texture {
