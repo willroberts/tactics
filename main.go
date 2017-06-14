@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 
-	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/engine"
 	"github.com/willroberts/tactics/grid"
 )
@@ -18,34 +17,33 @@ const (
 
 	framesPerSecond uint32 = 60
 	frameTime       uint32 = 1000 / framesPerSecond // Milliseconds.
+
+	colorLightBlue uint32 = 0xff6495ed
+	colorDarkBlue  uint32 = 0xff4682b4
+	//colorDarkBlue uint32 = 0xff4169e1
 )
 
 func main() {
-	// Build a grid.
-	g := grid.NewGrid(9, 5, 50, 50)
-	_ = g
+	// FIXME: Move some things to init(), leaving only the loop in main().
+	g := grid.NewGrid(gridWidth, gridHeight, cellWidth, cellHeight)
+	g.Checkerboard(colorLightBlue, colorDarkBlue)
 
 	// TODO: Load textures from a TMX file.
 
-	// Add units.
+	// TODO: Add units.
 
-	// Render with SDL.
-	// TODO: Try with OpenGL.
 	eng, err := engine.NewSDLEngine("tactics", windowWidth, windowHeight)
 	if err != nil {
 		log.Fatalln("failed to initalize sdl engine:", err)
 	}
 
-	// TODO: Create game objects somewhere.
-	var gameObjects []*sdl.Rect
-
-	// Main loop.
-	// TODO: Move everything above this into init()?
 	for {
 		eng.ClearScreen()
-		//game.ProcessFrame() // TODO: Implement package `game`.
-		for _, o := range gameObjects {
-			eng.DrawRect(o, 0xff33aa33)
+		// FIXME: Use a channel for iteration.
+		for _, col := range g.Cells() {
+			for _, cell := range col {
+				eng.DrawRect(cell.Rect(), cell.Color())
+			}
 		}
 		eng.UpdateSurface()
 		eng.PauseRendering(frameTime)
