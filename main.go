@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/willroberts/tactics/gfx"
+	"github.com/willroberts/tactics/engine"
 	"github.com/willroberts/tactics/grid"
 )
 
