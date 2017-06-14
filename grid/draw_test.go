@@ -13,7 +13,7 @@ const (
 	ColorGreen uint32 = 0xff00ff00
 	ColorRed   uint32 = 0xffff0000
 
-	WindowDuration uint32 = 2000 // Milliseconds.
+	WindowDuration uint32 = 200 // Milliseconds.
 )
 
 func TestColorAssignment(t *testing.T) {
