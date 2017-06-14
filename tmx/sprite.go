@@ -1,15 +1,18 @@
 package tmx
 
 import (
-	"bufio"
-	"fmt"
 	"image"
 	"image/png"
 	"os"
+
+	"github.com/oliamb/cutter"
 )
 
 func init() {
 	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
+}
+
+type Spritesheet interface {
 }
 
 type spritesheet struct {
@@ -20,6 +23,10 @@ type spritesheet struct {
 	sprites      []image.Image
 	spriteWidth  int
 	spriteHeight int
+}
+
+func (s *spritesheet) Image() image.Image {
+	return s.image
 }
 
 func (s *spritesheet) Width() int {
@@ -44,7 +51,7 @@ func (s *spritesheet) LoadImage(filename string) error {
 		return err
 	}
 	defer f.Close()
-	i, _, err := image.Decode(f)
+	i, err := png.Decode(f)
 	if err != nil {
 		return err
 	}
@@ -65,35 +72,16 @@ func (s *spritesheet) FromTileset(filename string) error {
 	return nil
 }
 
-func (s *spritesheet) Cut() error {
-	// Read original image.
-	bounds := s.image.Bounds()
-	rgba := image.NewRGBA(bounds)
+func (s *spritesheet) Cut() {
 	for x := 0; x < s.width; x += s.spriteWidth {
 		for y := 0; y < s.height; y += s.spriteHeight {
-			subrect := image.Rectangle{
-				Min: image.Point{x, y},
-				Max: image.Point{x + s.spriteWidth, y + s.spriteHeight},
-			}
-			subimage := rgba.SubImage(subrect)
-			s.sprites = append(s.sprites, subimage)
+			sub, err := cutter.Crop(s.image, cutter.Config{
+				Width:   s.spriteWidth,
+				Height:  s.spriteHeight,
+				Anchor:  image.Point{x, y},
+				Options: cutter.Copy,
+			})
+			s.sprites = append(s.sprites, sub)
 		}
 	}
-
-	// Write new images.
-	for i, s := range s.sprites {
-		f, err := os.Create(fmt.Sprintf("testassets/%d.png", i))
-		if err != nil {
-			return err
-		}
-		defer f.Close()
-		w := bufio.NewWriter(f)
-		err = png.Encode(w, s)
-		if err != nil {
-			return err
-		}
-		w.Flush()
-	}
-
-	return nil
 }
