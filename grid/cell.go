@@ -2,6 +2,8 @@ package grid
 
 import "github.com/veandco/go-sdl2/sdl"
 
+// TODO: Consider removing SDL coupling, or add GL coupling.
+
 // Cell is a container at a specific position inside a Grid.
 type Cell interface {
 	X() int
