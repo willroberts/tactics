@@ -1,0 +1,6 @@
+use 'godoc cmd/github.com/willroberts/tactics/tmx' for documentation on the github.com/willroberts/tactics/tmx command 
+
+COMMAND DOCUMENTATION
+
+
+

@@ -1,16 +1,19 @@
 # tactics
 
-A 2D tactics game, similar to Tactics Ogre.
+A 2D tactics game written in go.
 
-## to do
+## Design
 
-- test coverage
-- hunt fixme / todo
-- finish the tmx library and connect it with the grid package
-  - load textures from tmx
-- test opengl bindings (github.com/go-gl/gl)
+Currently floating somewhere between Tactical RPGs (Tactics Ogre) and Tactical
+CCGs (Duelyst).
 
-## running tests
+## To Do
 
-The commands `make test`, `make test_graphics`, and `make coverage` must be
-executed from a package directory, rather than from the repo root.
+* Load textures from TMX files (package `tmx`)
+* Input Handling (package `input`)
+* Fonts (package `text` or `label`)
+* Menus (package `menu`)
+* Audio (package `audio`)
+* Game Logic (package `logic` or `game`)
+  * Populate the `unit` package as needed
+* Add OpenGL Context for 3D rendering to the `engine` package

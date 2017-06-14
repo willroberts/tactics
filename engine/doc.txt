@@ -1,0 +1,27 @@
+use 'godoc cmd/github.com/willroberts/tactics/engine' for documentation on the github.com/willroberts/tactics/engine command 
+
+PACKAGE DOCUMENTATION
+
+package engine
+    import "github.com/willroberts/tactics/engine"
+
+
+TYPES
+
+type SDLEngine interface {
+    Window() *sdl.Window
+    Surface() *sdl.Surface
+    Renderer() *sdl.Renderer
+    ClearScreen() error
+    DrawRect(*sdl.Rect, uint32) error
+    UpdateSurface() error
+    PauseRendering(uint32)
+    DestroyWindow()
+}
+    SDLEngine is our interface to SDL2.
+
+func NewSDLEngine(title string, width int, height int) (SDLEngine, error)
+    NewSDLEngine creates an SDL window, surface, and renderer with the given
+    properties. Implements and returns the SDLEngine interface.
+
+
