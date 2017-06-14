@@ -11,17 +11,21 @@ TYPES
 type Cell interface {
     X() int
     Y() int
+
     PosX() int32
     PosY() int32
     Width() int
     Height() int
     Rect() *sdl.Rect
+
     Color() uint32
     SetColor(uint32)
     Texture() *sdl.Texture
     SetTexture(*sdl.Texture)
+
     Elevation() int
     SetElevation(int)
+
     Contents() Occupier
     SetContents(Occupier)
     ClearContents()

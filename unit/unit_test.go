@@ -5,5 +5,11 @@ import (
 )
 
 func TestNewUnit(t *testing.T) {
-	_ = NewUnit()
+	u := NewUnit()
+	if u.CanOccupy() != true {
+		t.FailNow()
+	}
+	if u.Name() != "unit" {
+		t.FailNow()
+	}
 }

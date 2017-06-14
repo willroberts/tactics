@@ -6,9 +6,6 @@ check:
 test:
 	go test -v -coverprofile cover.out
 
-test_graphics:
-	go test -v -tags=graphics -coverprofile cover.out
-
 coverage:
 	go test -v -coverprofile cover.out
 	go tool cover -func=cover.out

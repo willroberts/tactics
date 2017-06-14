@@ -45,6 +45,12 @@ func TestCell(t *testing.T) {
 		t.FailNow()
 	}
 
+	// Tests Color and SetColor.
+	c.SetColor(0xff336699)
+	if c.Color() != 0xff336699 {
+		t.FailNow()
+	}
+
 	// Tests elevation.
 	if c.Elevation() != 0 {
 		t.FailNow()

@@ -1,5 +1,3 @@
-// +build graphics
-
 package grid
 
 import (
@@ -16,47 +14,10 @@ const (
 	WindowDuration uint32 = 200 // Milliseconds.
 )
 
-func TestColorAssignment(t *testing.T) {
-	if assignCheckerboardColor(0, 0) != ColorGreen {
-		t.FailNow()
-	}
-	if assignCheckerboardColor(0, 1) != ColorWhite {
-		t.FailNow()
-	}
-	if assignCheckerboardColor(0, 2) != ColorGreen {
-		t.FailNow()
-	}
-	if assignCheckerboardColor(1, 0) != ColorWhite {
-		t.FailNow()
-	}
-	if assignCheckerboardColor(1, 1) != ColorGreen {
-		t.FailNow()
-	}
-	if assignCheckerboardColor(1, 2) != ColorWhite {
-		t.FailNow()
-	}
-}
-
 func TestDrawing(t *testing.T) {
 	g := NewGrid(9, 5, 50, 50)
 	if err := drawGrid(g); err != nil {
 		t.FailNow()
-	}
-}
-
-func assignCheckerboardColor(x, y int) uint32 {
-	if x%2 == 0 {
-		if y%2 == 0 {
-			return ColorGreen
-		} else {
-			return ColorWhite
-		}
-	} else {
-		if y%2 == 0 {
-			return ColorWhite
-		} else {
-			return ColorGreen
-		}
 	}
 }
 
@@ -104,7 +65,7 @@ func drawGrid(g Grid) error {
 				W: outer.W - 4,
 				H: outer.H - 4,
 			}
-			color := assignCheckerboardColor(x, y)
+			color := checkerColor(0xffff0000, 0xff0000ff, x, y)
 			err = surface.FillRect(inner, color)
 			if err != nil {
 				return err
