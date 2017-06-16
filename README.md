@@ -10,6 +10,7 @@ CCGs (Duelyst).
 ## To Do
 
 * 100% test coverage for `engine` package
+* Replace log.Println+t.FailNow with t.Errorf
 * Input Handling (package `input`)
 * Fonts (package `text` or `label`)
 * Menus (package `menu`)
