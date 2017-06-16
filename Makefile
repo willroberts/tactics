@@ -11,6 +11,11 @@ coverage:
 	@go tool cover -func=cover.out
 	@rm cover.out
 
+html_coverage:
+	@go test -v -coverprofile cover.out
+	@go tool cover -html=cover.out
+	@rm cover.out
+
 docs:
 	@godoc github.com/willroberts/tactics/engine > engine/doc.txt
 	@godoc github.com/willroberts/tactics/grid > grid/doc.txt
