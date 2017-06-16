@@ -18,10 +18,10 @@ type dimensions struct {
 // Tiled map.
 func GetDimensions(m *gotmx.Map) (*dimensions, error) {
 	if len(m.Tilesets) == 0 {
-		return &dimensions{}, errors.New("no tilesets in this map!")
+		return &dimensions{}, errors.New("no tilesets in this map")
 	}
 	if len(m.Tilesets) > 1 {
-		return &dimensions{}, errors.New("more than one tileset!")
+		return &dimensions{}, errors.New("more than one tileset")
 	}
 	d := &dimensions{
 		W:     m.Tilesets[0].Image.Width,
