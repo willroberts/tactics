@@ -8,8 +8,7 @@ package tmx
 
 FUNCTIONS
 
-func GetMap(filename string) (*gotmx.Map, error)
-    GetMap returns a decoded Tiled map from the given filename.
+func GetDimensions(filename string) (*dimensions, error)
 
 SUBDIRECTORIES
 
