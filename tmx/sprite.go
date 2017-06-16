@@ -3,9 +3,11 @@ package tmx
 import (
 	"image"
 	"image/png"
+	"log"
 	"os"
 
 	"github.com/oliamb/cutter"
+	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -14,6 +16,21 @@ func init() {
 }
 
 type Spritesheet interface {
+	Image() image.Image
+	Width() int
+	Height() int
+
+	Sprites() []image.Image
+	SpriteWidth() int
+	SpriteHeight() int
+
+	LoadImage(string) error
+	PopulateDimensions(string) error
+	PopulateSprites()
+
+	CreateTexture(image.Image, *sdl.Renderer) (*sdl.Texture, error)
+	AddTexture(*sdl.Texture)
+	DestroyTextures()
 }
 
 type spritesheet struct {
@@ -22,6 +39,7 @@ type spritesheet struct {
 	height int
 
 	sprites      []image.Image
+	textures     []*sdl.Texture
 	spriteWidth  int
 	spriteHeight int
 }
@@ -36,6 +54,10 @@ func (s *spritesheet) Width() int {
 
 func (s *spritesheet) Height() int {
 	return s.height
+}
+
+func (s *spritesheet) Sprites() []image.Image {
+	return s.sprites
 }
 
 func (s *spritesheet) SpriteWidth() int {
@@ -60,7 +82,7 @@ func (s *spritesheet) LoadImage(filename string) error {
 	return nil
 }
 
-func (s *spritesheet) FromTileset(filename string) error {
+func (s *spritesheet) PopulateDimensions(filename string) error {
 	m, err := GetMap(filename)
 	if err != nil {
 		return err
@@ -73,7 +95,7 @@ func (s *spritesheet) FromTileset(filename string) error {
 	return nil
 }
 
-func (s *spritesheet) Cut() {
+func (s *spritesheet) PopulateSprites() {
 	for x := 0; x < s.width; x += s.spriteWidth {
 		for y := 0; y < s.height; y += s.spriteHeight {
 			sub, err := cutter.Crop(s.image, cutter.Config{
@@ -82,41 +104,53 @@ func (s *spritesheet) Cut() {
 				Anchor:  image.Point{x, y},
 				Options: cutter.Copy,
 			})
+			if err != nil {
+				log.Println("failed to crop image:", err)
+				continue
+			}
 			s.sprites = append(s.sprites, sub)
 		}
 	}
 }
 
-func (s *spritesheet) ImgToTexture() *sdl.Texture {
-	return &sdl.Texture{}
-	/* Borrowed example code from go-sdl2/img.
-	// Loads a PNG file, returning *sdl.Surface.
-	// Then converts *sdl.Surface to *sdl.Texture.
-	// How can I create *sdl.Texture from image.Image?
-	// Draws *sdl.Texture with renderer.Copy().
-	image, err := img.Load(imageName)
+// NOTE: Due to the SDL2 API requiring a string rather than a buffer or Reader
+// for img.Load(), we temporarily write an image to disk. :(
+func CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Texture, error) {
+	filename := ".t.png"
+	f, err := os.Create(filename)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to load PNG: %s\n", err)
-		return 3
+		return &sdl.Texture{}, err
 	}
-	defer image.Free()
 
-	texture, err = renderer.CreateTextureFromSurface(image)
+	if err = png.Encode(f, i); err != nil {
+		return &sdl.Texture{}, err
+	}
+	err = f.Close()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
-		return 4
+		return &sdl.Texture{}, err
 	}
-	defer texture.Destroy()
 
-	src = sdl.Rect{0, 0, 512, 512}
-	dst = sdl.Rect{100, 50, 512, 512}
+	sur, err := img.Load(filename)
+	if err != nil {
+		return &sdl.Texture{}, err
+	}
+	defer sur.Free()
 
-	renderer.Clear()
-	renderer.SetDrawColor(255, 0, 0, 255)
-	renderer.FillRect(&sdl.Rect{0, 0, int32(winWidth), int32(winHeight)})
-	renderer.Copy(texture, &src, &dst)
-	renderer.Present()
+	tex, err := r.CreateTextureFromSurface(sur)
+	if err != nil {
+		return &sdl.Texture{}, err
+	}
 
-	sdl.Delay(2000)
-	*/
+	_ = os.Remove(filename)
+	return tex, nil
+}
+
+func (s *spritesheet) AddTexture(t *sdl.Texture) {
+	s.textures = append(s.textures, t)
+}
+
+func (s *spritesheet) DestroyTextures() {
+	for _, t := range s.textures {
+		t.Destroy()
+	}
 }

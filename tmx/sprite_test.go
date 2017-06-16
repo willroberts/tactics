@@ -18,14 +18,14 @@ func TestLoadImage(t *testing.T) {
 	}
 }
 
-func TestFromTileset(t *testing.T) {
-	err := s.FromTileset("testassets/grass.tmx")
+func TestPopulateDimensions(t *testing.T) {
+	err := s.PopulateDimensions("testassets/grass.tmx")
 	if err != nil {
 		log.Println("error:", err)
 		t.FailNow()
 	}
 }
 
-func TestCut(t *testing.T) {
-	s.Cut()
+func TestPopulateSprites(t *testing.T) {
+	s.PopulateSprites()
 }
