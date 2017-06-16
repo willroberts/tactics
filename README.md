@@ -10,7 +10,7 @@ CCGs (Duelyst).
 ## To Do
 
 * Cleanup and package organization
-* errcheck, go vet, golint
+* 100% test coverage before starting new packages.
 * Input Handling (package `input`)
 * Fonts (package `text` or `label`)
 * Menus (package `menu`)
