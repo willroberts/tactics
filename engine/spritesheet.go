@@ -96,15 +96,14 @@ func (s *spritesheet) LoadImage(filename string) error {
 }
 
 func (s *spritesheet) PopulateDimensions(filename string) error {
-	m, err := tmx.GetMap(filename)
+	d, err := tmx.GetDimensions(filename)
 	if err != nil {
 		return err
 	}
-	// FIXME: Don't hardcode slice index.
-	s.width = m.Tilesets[0].Image.Width
-	s.height = m.Tilesets[0].Image.Height
-	s.spriteWidth = m.TileWidth
-	s.spriteHeight = m.TileHeight
+	s.width = d.W
+	s.height = d.H
+	s.spriteWidth = d.TileW
+	s.spriteHeight = d.TileH
 	return nil
 }
 
