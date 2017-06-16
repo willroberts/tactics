@@ -2,6 +2,8 @@ package tmx
 
 import (
 	"testing"
+
+	gotmx "github.com/salviati/go-tmx/tmx"
 )
 
 const (
@@ -10,8 +12,30 @@ const (
 	missingFile string = "missing.file"
 )
 
+var (
+	tiledMap *gotmx.Map
+)
+
+func TestGetMap(t *testing.T) {
+	m, err := GetMap(tiledFile)
+	if err != nil {
+		t.FailNow()
+	}
+	tiledMap = m
+
+	_, err = GetMap(badFile)
+	if err == nil {
+		t.FailNow()
+	}
+
+	_, err = GetMap(missingFile)
+	if err == nil {
+		t.FailNow()
+	}
+}
+
 func TestGetDimensions(t *testing.T) {
-	d, err := GetDimensions(tiledFile)
+	d, err := GetDimensions(tiledMap)
 	if err != nil {
 		t.FailNow()
 	}
@@ -21,25 +45,14 @@ func TestGetDimensions(t *testing.T) {
 		t.FailNow()
 	}
 
-	d, err = GetDimensions(badFile)
-	if err == nil {
-		t.FailNow()
-	}
-}
-
-func TestGetMap(t *testing.T) {
-	_, err := getMap(tiledFile)
-	if err != nil {
+	badMap := tiledMap
+	badMap.Tilesets = append(badMap.Tilesets, badMap.Tilesets[0])
+	if _, err = GetDimensions(badMap); err == nil {
 		t.FailNow()
 	}
 
-	_, err = getMap(badFile)
-	if err == nil {
-		t.FailNow()
-	}
-
-	_, err = getMap(missingFile)
-	if err == nil {
+	badMap.Tilesets = []gotmx.Tileset{}
+	if _, err = GetDimensions(badMap); err == nil {
 		t.FailNow()
 	}
 }

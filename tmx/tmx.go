@@ -1,28 +1,29 @@
 package tmx
 
 import (
+	"errors"
 	"os"
 
 	gotmx "github.com/salviati/go-tmx/tmx"
 )
 
-// Dimensions stores the width, height, tile width, and tile height of a Tiled
-// map.
-type Dimensions struct {
+type dimensions struct {
 	W     int
 	H     int
 	TileW int
 	TileH int
 }
 
-// GetDimensions returns the Dimensions struct for a Tiled map.
-func GetDimensions(filename string) (*Dimensions, error) {
-	m, err := getMap(filename)
-	if err != nil {
-		return &Dimensions{}, err
+// GetDimensions returns the width, height, tile width, and tile height of a
+// Tiled map.
+func GetDimensions(m *gotmx.Map) (*dimensions, error) {
+	if len(m.Tilesets) == 0 {
+		return &dimensions{}, errors.New("no tilesets in this map!")
 	}
-	d := &Dimensions{
-		// FIXME: Don't hardcore slice index.
+	if len(m.Tilesets) > 1 {
+		return &dimensions{}, errors.New("more than one tileset!")
+	}
+	d := &dimensions{
 		W:     m.Tilesets[0].Image.Width,
 		H:     m.Tilesets[0].Image.Height,
 		TileW: m.TileWidth,
@@ -32,7 +33,7 @@ func GetDimensions(filename string) (*Dimensions, error) {
 }
 
 // GetMap returns a decoded Tiled map from the given filename.
-func getMap(filename string) (*gotmx.Map, error) {
+func GetMap(filename string) (*gotmx.Map, error) {
 	f, err := os.Open(filename)
 	if err != nil {
 		return &gotmx.Map{}, err
