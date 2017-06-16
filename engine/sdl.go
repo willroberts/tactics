@@ -65,16 +65,6 @@ func (s *sdlengine) DrawTexture(tex *sdl.Texture) error {
 	if err != nil {
 		return err
 	}
-	/* HOW TO DRAW A TEX:
-	   src = sdl.Rect{0, 0, 512, 512}
-	   dst = sdl.Rect{100, 50, 512, 512}
-	   renderer.Clear()
-	   renderer.SetDrawColor(255, 0, 0, 255)
-	   renderer.FillRect(&sdl.Rect{0, 0, int32(winWidth), int32(winHeight)})
-	   renderer.Copy(texture, &src, &dst)
-	   renderer.Present()
-	   sdl.Delay(2000)
-	*/
 	return nil
 }
 

@@ -10,6 +10,7 @@ import (
 
 var (
 	eng SDLEngine
+	ss  Spritesheet
 	err error
 )
 
@@ -32,7 +33,22 @@ func TestNewSDLEngine(t *testing.T) {
 }
 
 func TestProcessTextures(t *testing.T) {
-	ss := &spritesheet{}
+	// Test bad sprites.
+	ss = &spritesheet{}
+	badImg := image.NewRGBA(image.Rectangle{
+		Min: image.Point{0, 0},
+		Max: image.Point{-1, -1},
+	})
+	ss.AddSprite(badImg)
+
+	err = eng.ProcessTextures(ss)
+	if err == nil {
+		log.Println("no error processing image")
+		t.FailNow()
+	}
+
+	// Test valid sprites.
+	ss = &spritesheet{}
 	for i := 0; i < 3; i++ {
 		s := image.NewRGBA(image.Rectangle{
 			Min: image.Point{0, 0},
@@ -56,19 +72,6 @@ func TestProcessTextures(t *testing.T) {
 			t.FailNow()
 		}
 	}
-
-	ss = &spritesheet{}
-	badImg := image.NewRGBA(image.Rectangle{
-		Min: image.Point{0, 0},
-		Max: image.Point{-1, -1},
-	})
-	ss.AddSprite(badImg)
-
-	err = eng.ProcessTextures(ss)
-	if err == nil {
-		log.Println("no error processing image")
-		t.FailNow()
-	}
 }
 
 func TestClearScreen(t *testing.T) {
@@ -87,12 +90,19 @@ func TestDrawRect(t *testing.T) {
 	}
 }
 
-// FIXME: Update test after implementing function.
 func TestDrawTexture(t *testing.T) {
-	tex := &sdl.Texture{}
+	// Test valid texture.
+	tex := ss.Textures()[0]
 	err := eng.DrawTexture(tex)
+	if err != nil {
+		t.Errorf("failed to draw texture: %v", err)
+	}
+
+	// Test invalid texture.
+	tex = &sdl.Texture{}
+	err = eng.DrawTexture(tex)
 	if err == nil {
-		t.FailNow()
+		t.Errorf("failed to detect invalid texture")
 	}
 }
 
