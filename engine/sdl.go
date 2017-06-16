@@ -1,8 +1,6 @@
 package engine
 
 import (
-	"log"
-
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/tmx"
 )
@@ -12,11 +10,14 @@ type SDLEngine interface {
 	Window() *sdl.Window
 	Surface() *sdl.Surface
 	Renderer() *sdl.Renderer
-	ProcessTextures(tmx.Spritesheet)
+
+	ProcessTextures(tmx.Spritesheet) error
+
 	ClearScreen() error
 	DrawRect(*sdl.Rect, uint32) error
 	DrawTexture(*sdl.Texture) error
 	UpdateSurface() error
+
 	PauseRendering(uint32)
 	DestroyWindow()
 }
@@ -39,15 +40,15 @@ func (s *sdlengine) Renderer() *sdl.Renderer {
 	return s.renderer
 }
 
-func (s *sdlengine) ProcessTextures(ss tmx.Spritesheet) {
+func (s *sdlengine) ProcessTextures(ss tmx.Spritesheet) error {
 	for _, im := range ss.Sprites() {
 		tex, err := ss.CreateTexture(im, s.Renderer())
 		if err != nil {
-			log.Println("oops:", err)
-			continue
+			return err
 		}
 		ss.AddTexture(tex)
 	}
+	return nil
 }
 
 func (s *sdlengine) ClearScreen() error {
@@ -59,6 +60,12 @@ func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
 }
 
 func (s *sdlengine) DrawTexture(tex *sdl.Texture) error {
+	src := &sdl.Rect{X: 0, Y: 0, W: 20, H: 20}
+	dst := &sdl.Rect{X: 20, Y: 20, W: 20, H: 20}
+	err := s.renderer.Copy(tex, src, dst)
+	if err != nil {
+		return err
+	}
 	/* HOW TO DRAW A TEX:
 	   src = sdl.Rect{0, 0, 512, 512}
 	   dst = sdl.Rect{100, 50, 512, 512}

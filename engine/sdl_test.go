@@ -1,36 +1,65 @@
 package engine
 
 import (
+	"image"
+	"log"
 	"testing"
 
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/willroberts/tactics/tmx"
 )
 
 var (
-	engine SDLEngine
-	err    error
+	eng SDLEngine
+	err error
 )
 
 // TODO: Determine why this only has 78.6% test coverage.
 func TestNewSDLEngine(t *testing.T) {
-	engine, err = NewSDLEngine("test", 450, 250)
+	eng, err = NewSDLEngine("test", 450, 250)
 	if err != nil {
 		t.FailNow()
 	}
 
-	if engine.Window() == nil {
+	if eng.Window() == nil {
 		t.FailNow()
 	}
-	if engine.Surface() == nil {
+	if eng.Surface() == nil {
 		t.FailNow()
 	}
-	if engine.Renderer() == nil {
+	if eng.Renderer() == nil {
 		t.FailNow()
 	}
 }
 
+func TestProcessTextures(t *testing.T) {
+	ss := tmx.NewSpritesheet()
+	for i := 0; i < 3; i++ {
+		s := image.NewRGBA(image.Rectangle{
+			Min: image.Point{0, 0},
+			Max: image.Point{1, 1},
+		})
+		ss.AddSprite(s)
+	}
+	err := eng.ProcessTextures(ss)
+	if err != nil {
+		log.Println("error: failed to process textures:", err)
+		t.FailNow()
+	}
+	if len(ss.Sprites()) != len(ss.Textures()) {
+		log.Println("error: sprite-texture count mismatch")
+		t.FailNow()
+	}
+	for _, im := range ss.Textures() {
+		if im == nil {
+			log.Println("error: missing textures")
+			t.FailNow()
+		}
+	}
+}
+
 func TestClearScreen(t *testing.T) {
-	err = engine.ClearScreen()
+	err = eng.ClearScreen()
 	if err != nil {
 		t.FailNow()
 	}
@@ -39,14 +68,14 @@ func TestClearScreen(t *testing.T) {
 func TestDrawRect(t *testing.T) {
 	rect := &sdl.Rect{X: 50, Y: 50, W: 50, H: 50}
 	var color uint32 = 0xff33ff33
-	err = engine.DrawRect(rect, color)
+	err = eng.DrawRect(rect, color)
 	if err != nil {
 		t.FailNow()
 	}
 }
 
 func TestUpdate(t *testing.T) {
-	err = engine.UpdateSurface()
+	err = eng.UpdateSurface()
 	if err != nil {
 		t.FailNow()
 	}
@@ -54,9 +83,9 @@ func TestUpdate(t *testing.T) {
 
 func TestPauseRendering(t *testing.T) {
 	var duration uint32 = 200 // Milliseconds.
-	engine.PauseRendering(duration)
+	eng.PauseRendering(duration)
 }
 
 func TestDestroy(t *testing.T) {
-	engine.DestroyWindow()
+	eng.DestroyWindow()
 }

@@ -15,19 +15,25 @@ func init() {
 	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
 }
 
+// Spritesheet is the interface for an image containing a grid of smaller
+// images. Its interface allows us to carve up the image, and convert each one
+// into an SDL texture.
 type Spritesheet interface {
 	Image() image.Image
+
 	Width() int
 	Height() int
-
-	Sprites() []image.Image
 	SpriteWidth() int
 	SpriteHeight() int
+
+	Sprites() []image.Image
+	AddSprite(image.Image)
 
 	LoadImage(string) error
 	PopulateDimensions(string) error
 	PopulateSprites()
 
+	Textures() []*sdl.Texture
 	CreateTexture(image.Image, *sdl.Renderer) (*sdl.Texture, error)
 	AddTexture(*sdl.Texture)
 	DestroyTextures()
@@ -56,10 +62,6 @@ func (s *spritesheet) Height() int {
 	return s.height
 }
 
-func (s *spritesheet) Sprites() []image.Image {
-	return s.sprites
-}
-
 func (s *spritesheet) SpriteWidth() int {
 	return s.spriteWidth
 }
@@ -68,17 +70,27 @@ func (s *spritesheet) SpriteHeight() int {
 	return s.spriteHeight
 }
 
+func (s *spritesheet) Sprites() []image.Image {
+	return s.sprites
+}
+
+func (s *spritesheet) AddSprite(i image.Image) {
+	s.sprites = append(s.sprites, i)
+}
+
 func (s *spritesheet) LoadImage(filename string) error {
 	f, err := os.Open(filename)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+
 	i, err := png.Decode(f)
 	if err != nil {
 		return err
 	}
 	s.image = i
+
+	_ = f.Close()
 	return nil
 }
 
@@ -113,9 +125,14 @@ func (s *spritesheet) PopulateSprites() {
 	}
 }
 
+func (s *spritesheet) Textures() []*sdl.Texture {
+	return s.textures
+}
+
+// FIXME: Move to engine package.
 // NOTE: Due to the SDL2 API requiring a string rather than a buffer or Reader
 // for img.Load(), we temporarily write an image to disk. :(
-func CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Texture, error) {
+func (s *spritesheet) CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Texture, error) {
 	filename := ".t.png"
 	f, err := os.Create(filename)
 	if err != nil {
@@ -153,4 +170,9 @@ func (s *spritesheet) DestroyTextures() {
 	for _, t := range s.textures {
 		t.Destroy()
 	}
+}
+
+// NewSpritesheet returns an empty spritesheet for testing purposes.
+func NewSpritesheet() Spritesheet {
+	return &spritesheet{}
 }
