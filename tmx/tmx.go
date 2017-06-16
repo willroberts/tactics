@@ -6,19 +6,22 @@ import (
 	gotmx "github.com/salviati/go-tmx/tmx"
 )
 
-type dimensions struct {
+// Dimensions stores the width, height, tile width, and tile height of a Tiled
+// map.
+type Dimensions struct {
 	W     int
 	H     int
 	TileW int
 	TileH int
 }
 
-func GetDimensions(filename string) (*dimensions, error) {
+// GetDimensions returns the Dimensions struct for a Tiled map.
+func GetDimensions(filename string) (*Dimensions, error) {
 	m, err := getMap(filename)
 	if err != nil {
-		return &dimensions{}, err
+		return &Dimensions{}, err
 	}
-	d := &dimensions{
+	d := &Dimensions{
 		// FIXME: Don't hardcore slice index.
 		W:     m.Tilesets[0].Image.Width,
 		H:     m.Tilesets[0].Image.Height,
