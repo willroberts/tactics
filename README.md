@@ -9,7 +9,8 @@ CCGs (Duelyst).
 
 ## To Do
 
-* Load textures from TMX files (package `tmx`)
+* Cleanup and package organization
+* errcheck, go vet, golint
 * Input Handling (package `input`)
 * Fonts (package `text` or `label`)
 * Menus (package `menu`)
