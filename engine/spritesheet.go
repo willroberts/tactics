@@ -96,7 +96,11 @@ func (s *spritesheet) LoadImage(filename string) error {
 }
 
 func (s *spritesheet) PopulateDimensions(filename string) error {
-	d, err := tmx.GetDimensions(filename)
+	m, err := tmx.GetMap(filename)
+	if err != nil {
+		return err
+	}
+	d, err := tmx.GetDimensions(m)
 	if err != nil {
 		return err
 	}
