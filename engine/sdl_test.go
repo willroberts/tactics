@@ -40,6 +40,7 @@ func TestProcessTextures(t *testing.T) {
 		})
 		ss.AddSprite(s)
 	}
+
 	err := eng.ProcessTextures(ss)
 	if err != nil {
 		log.Println("error: failed to process textures:", err)
@@ -55,6 +56,19 @@ func TestProcessTextures(t *testing.T) {
 			t.FailNow()
 		}
 	}
+
+	ss = &spritesheet{}
+	badImg := image.NewRGBA(image.Rectangle{
+		Min: image.Point{0, 0},
+		Max: image.Point{-1, -1},
+	})
+	ss.AddSprite(badImg)
+
+	err = eng.ProcessTextures(ss)
+	if err == nil {
+		log.Println("no error processing image")
+		t.FailNow()
+	}
 }
 
 func TestClearScreen(t *testing.T) {
@@ -69,6 +83,15 @@ func TestDrawRect(t *testing.T) {
 	var color uint32 = 0xff33ff33
 	err = eng.DrawRect(rect, color)
 	if err != nil {
+		t.FailNow()
+	}
+}
+
+// FIXME: Update test after implementing function.
+func TestDrawTexture(t *testing.T) {
+	tex := &sdl.Texture{}
+	err := eng.DrawTexture(tex)
+	if err == nil {
 		t.FailNow()
 	}
 }

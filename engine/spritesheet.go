@@ -134,6 +134,8 @@ func (s *spritesheet) Textures() []*sdl.Texture {
 // for img.Load(), we temporarily write an image to disk. :(
 func (s *spritesheet) CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Texture, error) {
 	filename := ".t.png"
+	defer func() { _ = os.Remove(filename) }()
+
 	f, err := os.Create(filename)
 	if err != nil {
 		return &sdl.Texture{}, err
@@ -142,8 +144,8 @@ func (s *spritesheet) CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Textur
 	if err = png.Encode(f, i); err != nil {
 		return &sdl.Texture{}, err
 	}
-	err = f.Close()
-	if err != nil {
+
+	if err = f.Close(); err != nil {
 		return &sdl.Texture{}, err
 	}
 
@@ -158,7 +160,6 @@ func (s *spritesheet) CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Textur
 		return &sdl.Texture{}, err
 	}
 
-	_ = os.Remove(filename)
 	return tex, nil
 }
 
