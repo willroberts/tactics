@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/willroberts/tactics/tmx"
 )
 
 var (
@@ -33,7 +32,7 @@ func TestNewSDLEngine(t *testing.T) {
 }
 
 func TestProcessTextures(t *testing.T) {
-	ss := tmx.NewSpritesheet()
+	ss := &spritesheet{}
 	for i := 0; i < 3; i++ {
 		s := image.NewRGBA(image.Rectangle{
 			Min: image.Point{0, 0},

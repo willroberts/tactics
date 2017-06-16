@@ -2,7 +2,6 @@ package engine
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/willroberts/tactics/tmx"
 )
 
 // SDLEngine is our interface to SDL2.
@@ -11,7 +10,7 @@ type SDLEngine interface {
 	Surface() *sdl.Surface
 	Renderer() *sdl.Renderer
 
-	ProcessTextures(tmx.Spritesheet) error
+	ProcessTextures(Spritesheet) error
 
 	ClearScreen() error
 	DrawRect(*sdl.Rect, uint32) error
@@ -40,7 +39,7 @@ func (s *sdlengine) Renderer() *sdl.Renderer {
 	return s.renderer
 }
 
-func (s *sdlengine) ProcessTextures(ss tmx.Spritesheet) error {
+func (s *sdlengine) ProcessTextures(ss Spritesheet) error {
 	for _, im := range ss.Sprites() {
 		tex, err := ss.CreateTexture(im, s.Renderer())
 		if err != nil {

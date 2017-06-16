@@ -1,8 +1,13 @@
-package tmx
+package engine
 
 import (
 	"log"
 	"testing"
+)
+
+const (
+	spritesheetFile string = "testassets/spritesheet.png"
+	tiledFile       string = "testassets/grass.tmx"
 )
 
 var (
@@ -11,7 +16,7 @@ var (
 
 func TestLoadImage(t *testing.T) {
 	s = &spritesheet{}
-	err := s.LoadImage("testassets/floor-tiles-20x20.png")
+	err := s.LoadImage(spritesheetFile)
 	if err != nil {
 		log.Println("error:", err)
 		t.FailNow()
@@ -19,7 +24,7 @@ func TestLoadImage(t *testing.T) {
 }
 
 func TestPopulateDimensions(t *testing.T) {
-	err := s.PopulateDimensions("testassets/grass.tmx")
+	err := s.PopulateDimensions(tiledFile)
 	if err != nil {
 		log.Println("error:", err)
 		t.FailNow()

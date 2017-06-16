@@ -1,4 +1,4 @@
-package tmx
+package engine
 
 import (
 	"image"
@@ -9,6 +9,7 @@ import (
 	"github.com/oliamb/cutter"
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/willroberts/tactics/tmx"
 )
 
 func init() {
@@ -95,7 +96,7 @@ func (s *spritesheet) LoadImage(filename string) error {
 }
 
 func (s *spritesheet) PopulateDimensions(filename string) error {
-	m, err := GetMap(filename)
+	m, err := tmx.GetMap(filename)
 	if err != nil {
 		return err
 	}
@@ -170,9 +171,4 @@ func (s *spritesheet) DestroyTextures() {
 	for _, t := range s.textures {
 		t.Destroy()
 	}
-}
-
-// NewSpritesheet returns an empty spritesheet for testing purposes.
-func NewSpritesheet() Spritesheet {
-	return &spritesheet{}
 }
