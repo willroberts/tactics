@@ -6,19 +6,14 @@ package tmx
     import "github.com/willroberts/tactics/tmx"
 
 
-TYPES
+FUNCTIONS
 
-type Dimensions struct {
-    W     int
-    H     int
-    TileW int
-    TileH int
-}
-    Dimensions stores the width, height, tile width, and tile height of a
-    Tiled map.
+func GetDimensions(m *gotmx.Map) (*dimensions, error)
+    GetDimensions returns the width, height, tile width, and tile height of
+    a Tiled map.
 
-func GetDimensions(filename string) (*Dimensions, error)
-    GetDimensions returns the Dimensions struct for a Tiled map.
+func GetMap(filename string) (*gotmx.Map, error)
+    GetMap returns a decoded Tiled map from the given filename.
 
 SUBDIRECTORIES
 
