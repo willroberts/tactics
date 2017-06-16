@@ -12,9 +12,14 @@ type SDLEngine interface {
     Window() *sdl.Window
     Surface() *sdl.Surface
     Renderer() *sdl.Renderer
+
+    ProcessTextures(Spritesheet) error
+
     ClearScreen() error
     DrawRect(*sdl.Rect, uint32) error
+    DrawTexture(*sdl.Texture) error
     UpdateSurface() error
+
     PauseRendering(uint32)
     DestroyWindow()
 }
@@ -24,4 +29,31 @@ func NewSDLEngine(title string, width int, height int) (SDLEngine, error)
     NewSDLEngine creates an SDL window, surface, and renderer with the given
     properties. Implements and returns the SDLEngine interface.
 
+type Spritesheet interface {
+    Image() image.Image
+
+    Width() int
+    Height() int
+    SpriteWidth() int
+    SpriteHeight() int
+
+    Sprites() []image.Image
+    AddSprite(image.Image)
+
+    LoadImage(string) error
+    PopulateDimensions(string) error
+    PopulateSprites()
+
+    Textures() []*sdl.Texture
+    CreateTexture(image.Image, *sdl.Renderer) (*sdl.Texture, error)
+    AddTexture(*sdl.Texture)
+    DestroyTextures()
+}
+    Spritesheet is the interface for an image containing a grid of smaller
+    images. Its interface allows us to carve up the image, and convert each
+    one into an SDL texture.
+
+SUBDIRECTORIES
+
+	testassets
 

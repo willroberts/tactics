@@ -1,6 +1,17 @@
 use 'godoc cmd/github.com/willroberts/tactics/tmx' for documentation on the github.com/willroberts/tactics/tmx command 
 
-COMMAND DOCUMENTATION
+PACKAGE DOCUMENTATION
+
+package tmx
+    import "github.com/willroberts/tactics/tmx"
 
 
+FUNCTIONS
+
+func GetMap(filename string) (*gotmx.Map, error)
+    GetMap returns a decoded Tiled map from the given filename.
+
+SUBDIRECTORIES
+
+	testassets
 

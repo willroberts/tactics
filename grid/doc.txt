@@ -60,7 +60,4 @@ type Occupier interface {
     within a grid. To place objects in a cell, have your objects satisfy
     this interface.
 
-SUBDIRECTORIES
-
-	doc
 
