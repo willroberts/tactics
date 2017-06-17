@@ -14,75 +14,59 @@ const (
 )
 
 func TestCell(t *testing.T) {
-	// Test that creating a new cell produces the desired coordinates.
 	c := newCell(CellX, CellY, CellWidth, CellHeight)
-	if c.X() != CellX {
-		t.FailNow()
+	if c.X() != CellX || c.Y() != CellY {
+		t.Errorf("error: unexpected cell coordinates")
 	}
-	if c.Y() != CellY {
-		t.FailNow()
-	}
-	if c.Width() != CellWidth {
-		t.FailNow()
-	}
-	if c.Height() != CellHeight {
-		t.FailNow()
+	if c.Width() != CellWidth || c.Height() != CellHeight {
+		t.Errorf("error: unexpected cell dimensions")
 	}
 
-	// Test position calculations.
-	if c.PosX() != int32(CellX*CellWidth) {
-		t.FailNow()
-	}
-	if c.PosY() != int32(CellY*CellHeight) {
-		t.FailNow()
+	if c.PosX() != int32(CellX*CellWidth) || c.PosY() != int32(CellY*CellHeight) {
+		t.Errorf("error: unexpected cell position")
 	}
 
-	// Test Rect.
 	if c.Rect().X != c.PosX() || c.Rect().Y != c.PosY() {
-		t.FailNow()
+		t.Errorf("error: unexpected rect position")
 	}
 	if c.Rect().W != int32(CellWidth) || c.Rect().H != int32(CellHeight) {
-		t.FailNow()
+		t.Errorf("error: unexpected rect size")
 	}
 
-	// Tests Color and SetColor.
 	c.SetColor(0xff336699)
 	if c.Color() != 0xff336699 {
-		t.FailNow()
+		t.Errorf("error: failed to set color")
 	}
 
-	// Tests elevation.
 	if c.Elevation() != 0 {
-		t.FailNow()
+		t.Errorf("error: initial elevation was non-zero")
 	}
 	c.SetElevation(10)
 	if c.Elevation() != 10 {
-		t.FailNow()
+		t.Errorf("error: failed to set elevation")
 	}
 
-	// Test assignment, retrieval, and clearing of cell contents.
 	o := c.Contents()
 	if o != nil || c.IsOccupied() {
-		t.FailNow()
+		t.Errorf("error: initial cell contents were not nil")
 	}
 
 	occ := &occupier{}
 	c.SetContents(occ)
 	o = c.Contents()
 	if o != occ || !c.IsOccupied() {
-		t.FailNow()
+		t.Errorf("error: failed to set cell contents")
 	}
 
 	c.ClearContents()
 	o = c.Contents()
 	if o != nil || c.IsOccupied() {
-		t.FailNow()
+		t.Errorf("error: failed to clear cell contents")
 	}
 
-	// Test texture setter/getter.
 	tex := &sdl.Texture{}
 	c.SetTexture(tex)
 	if c.Texture() != tex {
-		t.FailNow()
+		t.Errorf("error: failed to set cell texture")
 	}
 }

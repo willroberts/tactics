@@ -17,7 +17,7 @@ const (
 func TestDrawing(t *testing.T) {
 	g := NewGrid(9, 5, 50, 50)
 	if err := drawGrid(g); err != nil {
-		t.FailNow()
+		t.Errorf("error: failed to draw grid")
 	}
 }
 

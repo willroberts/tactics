@@ -2,7 +2,6 @@ package engine
 
 import (
 	"image"
-	"log"
 	"testing"
 
 	"github.com/veandco/go-sdl2/sdl"
@@ -27,36 +26,32 @@ func TestLoadImage(t *testing.T) {
 	s = &spritesheet{}
 	err := s.LoadImage(badPngFile)
 	if err == nil {
-		log.Println("error: failed to detect bad png")
-		t.FailNow()
+		t.Errorf("error: failed to detect bad png")
 	}
 	err = s.LoadImage(invalidFile)
 	if err == nil {
-		log.Println("error: failed to detect invalid file")
-		t.FailNow()
+		t.Errorf("error: failed to detect invalid file")
 	}
 	err = s.LoadImage(pngFile)
 	if err != nil {
-		log.Println("error:", err)
-		t.FailNow()
+		t.Errorf("error: %v", err)
 	}
 }
 
 func TestImage(t *testing.T) {
 	if s.Image() == nil {
-		log.Println("image: image is nil")
-		t.FailNow()
+		t.Errorf("error: image is nil")
 	}
 }
 
 func TestPopulateDimensions(t *testing.T) {
 	err := s.PopulateDimensions(noTilesetsFile)
 	if err == nil {
-		t.Errorf("failed to detect bad tiled file")
+		t.Errorf("error: failed to detect bad tiled file")
 	}
 	err = s.PopulateDimensions(twoTilesetsFile)
 	if err == nil {
-		t.Errorf("failed to detect bad tiled file")
+		t.Errorf("error: failed to detect bad tiled file")
 	}
 	err = s.PopulateDimensions(tiledFile)
 	if err != nil {
@@ -64,31 +59,15 @@ func TestPopulateDimensions(t *testing.T) {
 	}
 }
 
-func TestWidth(t *testing.T) {
-	if s.Width() != 400 {
-		log.Println("error: unexpected width")
-		t.FailNow()
+func TestDimensions(t *testing.T) {
+	if s.Width() != 400 || s.Height() != 260 {
+		t.Errorf("error: unexpected image dimensions")
 	}
 }
 
-func TestHeight(t *testing.T) {
-	if s.Height() != 260 {
-		log.Println("error: unexpected height")
-		t.FailNow()
-	}
-}
-
-func TestSpriteWidth(t *testing.T) {
-	if s.SpriteWidth() != 20 {
-		log.Println("error: unexpected sprite width")
-		t.FailNow()
-	}
-}
-
-func TestSpriteHeight(t *testing.T) {
-	if s.SpriteHeight() != 20 {
-		log.Println("error: unexpected sprite height")
-		t.FailNow()
+func TestSpriteDimensions(t *testing.T) {
+	if s.SpriteWidth() != 20 || s.SpriteHeight() != 20 {
+		t.Errorf("error: unexpected sprite dimensions")
 	}
 }
 
@@ -110,7 +89,7 @@ func TestAddSprite(t *testing.T) {
 	count := len(s.Sprites())
 	s.AddSprite(spr)
 	if len(s.Sprites()) != count+1 {
-		t.FailNow()
+		t.Errorf("error: unexpected number of sprites")
 	}
 }
 
@@ -123,7 +102,7 @@ func TestTextures(t *testing.T) {
 func TestCreateTexture(t *testing.T) {
 	eng, err := NewSDLEngine("test", 400, 400)
 	if err != nil {
-		t.Errorf("failed to create engine: %v", err)
+		t.Errorf("error: failed to create engine: %v", err)
 	}
 
 	i := image.NewRGBA(image.Rectangle{
@@ -133,7 +112,7 @@ func TestCreateTexture(t *testing.T) {
 
 	_, err = s.CreateTexture(i, eng.Renderer())
 	if err != nil {
-		t.Errorf("failed to create texture: %v", err)
+		t.Errorf("error: failed to create texture: %v", err)
 	}
 }
 
@@ -142,7 +121,7 @@ func TestAddTexture(t *testing.T) {
 	count := len(s.Textures())
 	s.AddTexture(tex)
 	if len(s.Textures()) != count+1 {
-		t.FailNow()
+		t.Errorf("error: unexpected number of textures")
 	}
 }
 
