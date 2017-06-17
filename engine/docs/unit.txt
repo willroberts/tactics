@@ -1,0 +1,22 @@
+use 'godoc cmd/github.com/willroberts/tactics/unit' for documentation on the github.com/willroberts/tactics/unit command 
+
+PACKAGE DOCUMENTATION
+
+package unit
+    import "github.com/willroberts/tactics/unit"
+
+    Package unit contains game logic for controllable characters and NPCs.
+
+TYPES
+
+type Unit interface {
+    CanOccupy() bool
+    Name() string
+}
+    Unit is the interface for all units in the game. Satisfies the
+    grid.Occupier interface.
+
+func NewUnit() Unit
+    NewUnit creates and returns a Unit which satisfies grid.Occupier.
+
+
