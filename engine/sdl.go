@@ -61,6 +61,7 @@ func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
 }
 
 func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error {
+	// FIXME: See if label has width and height? For automatic rect sizing.
 	label, err := font.RenderUTF8_Solid(text, sdl.Color{
 		R: 255,
 		G: 255,

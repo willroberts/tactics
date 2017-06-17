@@ -1,10 +1,8 @@
 package menu
 
 import (
-	"log"
 	"testing"
 
-	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/engine"
 )
 
@@ -13,20 +11,20 @@ const (
 )
 
 func TestMenu(t *testing.T) {
+	// Create an engine.
 	eng, err := engine.NewSDLEngine("menu_test", 640, 480)
 	if err != nil {
 		t.Errorf("error: failed to get engine")
 	}
-
 	w, h := eng.Window().GetSize()
 
+	// Create a menu.
 	p := NewMenuParams{
 		W:        int32(w),
 		H:        int32(h),
-		ButtonW:  320,
-		ButtonH:  64,
+		ButtonW:  int32(w / 2),
+		ButtonH:  48,
 		FontFile: testFont,
-		FontSize: 48,
 	}
 	m, err := NewMenu(p)
 	if err != nil {
@@ -36,22 +34,16 @@ func TestMenu(t *testing.T) {
 	m.AddButton("Settings")
 	m.AddButton("Quit")
 
-	err = eng.DrawRect(&sdl.Rect{W: 640, H: 1, X: 0, Y: 240}, 0xffff0000)
-	if err != nil {
-		t.Errorf("error: failed to draw separator line")
-	}
-
+	// Draw to test the result.
 	for _, b := range m.Buttons() {
-		log.Println("button y value:", b.Rect.Y)
 		err = eng.DrawLabel(b.Text, b.Rect, m.Font())
 		if err != nil {
 			t.Errorf("error: failed to draw label")
 		}
 	}
-
 	err = eng.UpdateSurface()
 	if err != nil {
 		t.Errorf("error: failed to update surface")
 	}
-	eng.PauseRendering(2000)
+	eng.PauseRendering(400)
 }

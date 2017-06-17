@@ -29,27 +29,17 @@ func (m *menu) AddButton(text string) {
 	m.buttons = append(m.buttons, b)
 
 	// Update positions for all buttons.
-	for i := 0; i < len(m.buttons); i++ {
+	l := len(m.buttons)
+	for i := 0; i < l; i++ {
+		startingPos := (m.height / 2) - (int32(l) * m.buttonHeight / 2)
 		m.buttons[i].Rect = &sdl.Rect{
 			W: m.buttonWidth,
 			H: m.buttonHeight,
-			//X: m.width/2 - m.buttonWidth/2,
-			X: 0,
-			Y: m.height/2 - int32(48) + int32(i*48),
+			X: m.width/2 - m.buttonWidth/2,
+			Y: startingPos + (int32(i) * m.buttonHeight),
 		}
 	}
 }
-
-/*
-	center point:   h/2 (320)
-	with 1 button:  h/2-0.5bh
-	                320-32=288
-	with 2 buttons: h/2-bh, h/2
-	                320-64=256, 320
-	with 3 buttons: h/2-1.5bh, h/2-0.5bh, h/2+0.5bh
-	with 4 buttons: h/2-2bh, h/2-bh, h/2, h/2+bh
-	with 5 buttons: h/2-2.5bh, h/2-1.5bh, h/2-0.5bh, h/2+0.5bh, h/2+1.5bh
-*/
 
 func (m *menu) Buttons() []*Button {
 	return m.buttons
@@ -65,11 +55,10 @@ type NewMenuParams struct {
 	ButtonW  int32
 	ButtonH  int32
 	FontFile string
-	FontSize int
 }
 
 func NewMenu(p NewMenuParams) (Menu, error) {
-	f, err := InitializeFont(p.FontFile, p.FontSize)
+	f, err := InitializeFont(p.FontFile, int(p.ButtonH))
 	if err != nil {
 		return &menu{}, err
 	}
