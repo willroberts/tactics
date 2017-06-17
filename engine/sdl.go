@@ -2,6 +2,7 @@ package engine
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/ttf"
 )
 
 // SDLEngine is our interface to SDL2.
@@ -14,6 +15,7 @@ type SDLEngine interface {
 
 	ClearScreen() error
 	DrawRect(*sdl.Rect, uint32) error
+	DrawLabel(string, *sdl.Rect, *ttf.Font) error
 	DrawTexture(*sdl.Texture) error
 	UpdateSurface() error
 
@@ -56,6 +58,25 @@ func (s *sdlengine) ClearScreen() error {
 
 func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
 	return s.surface.FillRect(rect, color)
+}
+
+func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error {
+	label, err := font.RenderUTF8_Solid(text, sdl.Color{
+		R: 255,
+		G: 255,
+		B: 255,
+		A: 255,
+	})
+	if err != nil {
+		return err
+	}
+	defer label.Free()
+
+	if err = label.Blit(nil, s.Surface(), rect); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *sdlengine) DrawTexture(tex *sdl.Texture) error {
