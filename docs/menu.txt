@@ -8,4 +8,36 @@ package menu
     Package menu provides various ways to draw a main menu and handle user
     input.
 
+FUNCTIONS
+
+func InitializeFont(filename string, fontSize int) (*ttf.Font, error)
+
+TYPES
+
+type Button struct {
+    Text string
+    Rect *sdl.Rect
+}
+
+type Menu interface {
+    AddButton(string)
+    Buttons() []*Button
+    Font() *ttf.Font
+}
+    Menu represents a basic main menu with buttons aligned vertically. Other
+    layouts may be supported later.
+
+func NewMenu(p NewMenuParams) (Menu, error)
+
+type NewMenuParams struct {
+    W        int32
+    H        int32
+    ButtonW  int32
+    ButtonH  int32
+    FontFile string
+}
+
+SUBDIRECTORIES
+
+	testassets
 
