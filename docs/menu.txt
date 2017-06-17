@@ -1,0 +1,11 @@
+use 'godoc cmd/github.com/willroberts/tactics/engine/menu' for documentation on the github.com/willroberts/tactics/engine/menu command 
+
+PACKAGE DOCUMENTATION
+
+package menu
+    import "github.com/willroberts/tactics/engine/menu"
+
+    Package menu provides various ways to draw a main menu and handle user
+    input.
+
+

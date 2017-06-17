@@ -5,6 +5,7 @@ PACKAGE DOCUMENTATION
 package unit
     import "github.com/willroberts/tactics/unit"
 
+    Package unit contains game logic for controllable characters and NPCs.
 
 TYPES
 
