@@ -9,10 +9,10 @@ CCGs (Duelyst).
 
 ## To Do
 
-* 100% test coverage for `engine` package
+* 100% test coverage
+* Cursor graphics for menu
 * Input Handling (package `input`)
 * Fonts (package `text` or `label`)
-* Menus (package `menu`)
 * Audio (package `audio`)
 * Game Logic (package `logic` or `game`)
   * Populate the `unit` package as needed
