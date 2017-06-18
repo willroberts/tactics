@@ -19,6 +19,8 @@ type SDLEngine interface {
 	DrawTexture(*sdl.Texture) error
 	UpdateSurface() error
 
+	Events() []sdl.Event
+
 	PauseRendering(uint32)
 	DestroyWindow()
 }
@@ -92,6 +94,18 @@ func (s *sdlengine) DrawTexture(tex *sdl.Texture) error {
 
 func (s *sdlengine) UpdateSurface() error {
 	return s.window.UpdateSurface()
+}
+
+func (s *sdlengine) Events() []sdl.Event {
+	events := []sdl.Event{}
+	for {
+		e := sdl.PollEvent()
+		if e == nil {
+			break
+		}
+		events = append(events, e)
+	}
+	return events
 }
 
 func (s *sdlengine) PauseRendering(t uint32) {

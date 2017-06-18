@@ -10,7 +10,10 @@ import (
 type Menu interface {
 	AddButton(string)
 	Buttons() []*Button
-	CursorPos() *sdl.Rect
+	CursorPos() int
+	CursorUp()
+	CursorDown()
+	CursorRect() *sdl.Rect
 	Font() *ttf.Font
 }
 
@@ -46,7 +49,29 @@ func (m *menu) Buttons() []*Button {
 	return m.buttons
 }
 
-func (m *menu) CursorPos() *sdl.Rect {
+func (m *menu) CursorPos() int {
+	return m.cursorPos
+}
+
+func (m *menu) CursorUp() {
+	if m.cursorPos == 0 {
+		// can't move up, wrap around
+		m.cursorPos = len(m.buttons) - 1
+		return
+	}
+	m.cursorPos--
+}
+
+func (m *menu) CursorDown() {
+	if m.cursorPos == len(m.buttons)-1 {
+		// can't move down, wrap around
+		m.cursorPos = 0
+		return
+	}
+	m.cursorPos++
+}
+
+func (m *menu) CursorRect() *sdl.Rect {
 	adj := m.buttons[m.cursorPos].Rect
 	size := adj.H
 	margin := size / 4
