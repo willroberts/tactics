@@ -8,10 +8,10 @@ A 2D tactics game written in go.
 * engine/audio: music and sound effects
 * engine/input: keyboard and mouse input
 * engine/menu: menu logic and rendering
-* grid: standalone code for representing game boards
-* tmx: standalone code for interacting with tiled files
 * game: logic code specific to the game we're making
 * game/unit: code for representing units (players, NPCs, objects)
+* grid: standalone code for representing game boards
+* tmx: standalone code for interacting with tiled files
 
 ## To Do
 
