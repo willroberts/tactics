@@ -18,17 +18,23 @@ A 2D tactics game written in go.
 
 ### Priority 1 (Core Features)
 
+* Menus
+* Audio
 * Sprite (Texture) Rendering
-* Input Handling (input)
-* Audio (audio)
+* Input Handling
 
 ### Priority 2 (Design and Consistency)
 
-* Remove all SDL-specific code from grid package
+* Remove all SDL-specific code from grid package (?)
+	* OR: move grid to engine/grid
 	* Textures stored in cells
 	* Colors stored in cells
 	* Checkerboard & CheckerColor funcs for color operations
-	* OR: move grid to engine/grid (?)
-* Move tmx to engine/tmx (?)
-* Use int32 in engine and int elsewhere (?)
+* Move tmx to engine/tmx
+* Evaluate usage of int32 (engine)
 * Add OpenGL Context for 3D rendering (engine)
+
+### Priority 3 (Release)
+
+* 100% test coverage
+* Comment audit
