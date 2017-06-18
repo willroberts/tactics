@@ -8,8 +8,8 @@ import (
 
 const (
 	tiledFile   string = "testassets/grass.tmx"
-	badFile     string = "README.md"
-	missingFile string = "missing.file"
+	badFile     string = "testassets/bad.tmx"
+	missingFile string = "testassets/missing.tmx"
 )
 
 var (
