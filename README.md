@@ -10,6 +10,7 @@ CCGs (Duelyst).
 ## To Do
 
 * 100% test coverage
+* Keep packages as separate as possible and remove any tight coupling
 * Cursor graphics for menu
 * Input Handling (package `input`)
 * Fonts (package `text` or `label`)
