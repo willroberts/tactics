@@ -15,15 +15,16 @@ A 2D tactics game written in go.
 
 ## To Do
 
-* 100% test coverage (engine, menu)
 * Keep packages as separate as possible and remove any tight coupling
   * engine/spritesheet uses tmx (this might be okay)
 		* consider killing tmx package since it wraps go-tmx so closely
 	* grid uses sdl rects (sdl should be in engine only!)
 		* does it use them or just give an easy way to create them?
 		* consider returning the int coords to the engine and conv to rect there
-* use int32 in engine and int elsewhere
+	* grid draw tests should live in engine (grid unit tests are non-sdl only)
+* Use int instead of int32 outside engine (grid)
 * Input Handling (input)
 * Audio (audio)
 * Game Logic (game)
+* 100% test coverage (engine, menu)
 * Add OpenGL Context for 3D rendering (engine)
