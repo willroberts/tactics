@@ -34,8 +34,8 @@ func TestGetMap(t *testing.T) {
 	}
 }
 
-func TestGetDimensions(t *testing.T) {
-	d, err := GetDimensions(tiledMap)
+func TestDimensions(t *testing.T) {
+	d, err := Dimensions(tiledMap)
 	if err != nil {
 		t.Errorf("error: failed to get map dimensions: %v", err)
 	}
@@ -47,12 +47,12 @@ func TestGetDimensions(t *testing.T) {
 
 	badMap := tiledMap
 	badMap.Tilesets = append(badMap.Tilesets, badMap.Tilesets[0])
-	if _, err = GetDimensions(badMap); err == nil {
+	if _, err = Dimensions(badMap); err == nil {
 		t.Errorf("error: failed to return error on map with >1 tileset")
 	}
 
 	badMap.Tilesets = []gotmx.Tileset{}
-	if _, err = GetDimensions(badMap); err == nil {
+	if _, err = Dimensions(badMap); err == nil {
 		t.Errorf("error: failed to return error on map with no tileset")
 	}
 }
