@@ -45,9 +45,10 @@ type spritesheet struct {
 	height int
 
 	sprites      []image.Image
-	textures     []*sdl.Texture
 	spriteWidth  int
 	spriteHeight int
+
+	textures []*sdl.Texture
 }
 
 func (s *spritesheet) Image() image.Image {
@@ -99,7 +100,7 @@ func (s *spritesheet) PopulateDimensions(filename string) error {
 	if err != nil {
 		return err
 	}
-	d, err := tmx.GetDimensions(m)
+	d, err := tmx.Dimensions(m)
 	if err != nil {
 		return err
 	}
