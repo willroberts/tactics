@@ -22,9 +22,11 @@ const (
 	framesPerSecond uint32 = 30
 	frameTime       uint32 = 1000 / framesPerSecond // Milliseconds.
 
-	colorLightBlue uint32 = 0xff6495ed
-	colorDarkBlue  uint32 = 0xff4682b4
-	colorWhite     uint32 = 0xffffffff
+	colorRed    uint32 = 0xffff0000
+	colorGreen  uint32 = 0xff00ff00
+	colorLtBlue uint32 = 0xff6495ed
+	colorDkBlue uint32 = 0xff4682b4
+	colorWhite  uint32 = 0xffffffff
 )
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 	g := grid.NewGrid(gridWidth, gridHeight, cellWidth, cellHeight)
 
 	// TODO: Load textures from a TMX file.
-	g.Checkerboard(colorLightBlue, colorDarkBlue)
+	g.Checkerboard(colorLtBlue, colorDkBlue)
 
 	// Adds units.
 	// Positions chosen for testing. Replace with something legitimate.
@@ -46,6 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("failed to initalize sdl engine:", err)
 	}
+	defer eng.Window().Destroy()
 
 	for {
 		if err = eng.ClearScreen(); err != nil {
@@ -56,17 +59,24 @@ func main() {
 		for _, col := range g.Cells() {
 			for _, cell := range col {
 				// Draw cells.
-				if err = eng.DrawRect(cell.Rect(), cell.Color()); err != nil {
+				d := cell.Dimensions()
+				rect := &sdl.Rect{
+					X: int32(d.X),
+					Y: int32(d.Y),
+					W: int32(d.W),
+					H: int32(d.H),
+				}
+				if err = eng.DrawRect(rect, cell.Color()); err != nil {
 					log.Fatalln("error drawing cell:", err)
 				}
 
 				// Draw units and objects.
 				if cell.IsOccupied() {
 					unitRect := &sdl.Rect{
-						W: int32(cellWidth / 2),
-						H: int32(cellHeight / 2),
-						X: int32((cell.X() * cellWidth) + cellWidth/4),
-						Y: int32((cell.Y() * cellHeight) + cellWidth/4),
+						X: int32(d.X + (d.W / 4)),
+						Y: int32(d.Y + (d.H / 4)),
+						W: int32(d.W / 2),
+						H: int32(d.H / 2),
 					}
 					if err = eng.DrawRect(unitRect, colorWhite); err != nil {
 						log.Fatalln("error drawing unit:", err)
