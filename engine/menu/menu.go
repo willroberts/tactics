@@ -10,6 +10,7 @@ import (
 type Menu interface {
 	AddButton(string)
 	Buttons() []*Button
+	CursorPos() *sdl.Rect
 	Font() *ttf.Font
 }
 
@@ -45,6 +46,18 @@ func (m *menu) Buttons() []*Button {
 	return m.buttons
 }
 
+func (m *menu) CursorPos() *sdl.Rect {
+	adj := m.buttons[m.cursorPos].Rect
+	size := adj.H
+	margin := size / 4
+	return &sdl.Rect{
+		X: adj.X - size + margin,
+		Y: adj.Y + margin,
+		W: size / 2,
+		H: size / 2,
+	}
+}
+
 func (m *menu) Font() *ttf.Font {
 	return m.font
 }
@@ -58,7 +71,12 @@ type NewMenuParams struct {
 }
 
 func NewMenu(p NewMenuParams) (Menu, error) {
-	f, err := InitializeFont(p.FontFile, int(p.ButtonH))
+	err := ttf.Init()
+	if err != nil {
+		return &menu{}, err
+	}
+
+	f, err := ttf.OpenFont(p.FontFile, int(p.ButtonH))
 	if err != nil {
 		return &menu{}, err
 	}
