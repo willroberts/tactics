@@ -15,22 +15,17 @@ const (
 
 func TestCell(t *testing.T) {
 	c := newCell(CellX, CellY, CellWidth, CellHeight)
-	if c.X() != CellX || c.Y() != CellY {
+	if c.GridX() != CellX || c.GridY() != CellY {
 		t.Errorf("error: unexpected cell coordinates")
 	}
-	if c.Width() != CellWidth || c.Height() != CellHeight {
+
+	d := c.Dimensions()
+	if d.W != CellWidth || d.H != CellHeight {
 		t.Errorf("error: unexpected cell dimensions")
 	}
 
-	if c.PosX() != int32(CellX*CellWidth) || c.PosY() != int32(CellY*CellHeight) {
+	if d.X != CellX*CellWidth || d.Y != CellY*CellHeight {
 		t.Errorf("error: unexpected cell position")
-	}
-
-	if c.Rect().X != c.PosX() || c.Rect().Y != c.PosY() {
-		t.Errorf("error: unexpected rect position")
-	}
-	if c.Rect().W != int32(CellWidth) || c.Rect().H != int32(CellHeight) {
-		t.Errorf("error: unexpected rect size")
 	}
 
 	c.SetColor(0xff336699)

@@ -2,18 +2,22 @@ package grid
 
 import "github.com/veandco/go-sdl2/sdl"
 
-// TODO: Consider removing SDL coupling, or add GL coupling.
+// CellDimensions stores the visual representation data for a cell. X and Y
+// values are the number of pixels from (0,0). W and H are the pixel dimensions
+// of the cell.
+type CellDimensions struct {
+	X int
+	Y int
+	W int
+	H int
+}
 
 // Cell is a container at a specific position inside a Grid.
 type Cell interface {
-	X() int
-	Y() int
+	GridX() int
+	GridY() int
 
-	PosX() int32
-	PosY() int32
-	Width() int
-	Height() int
-	Rect() *sdl.Rect
+	Dimensions() CellDimensions
 
 	Color() uint32
 	SetColor(uint32)
@@ -40,28 +44,20 @@ type cell struct {
 	contents  Occupier
 }
 
-func (c *cell) X() int {
+func (c *cell) GridX() int {
 	return c.x
 }
 
-func (c *cell) Y() int {
+func (c *cell) GridY() int {
 	return c.y
 }
 
-func (c *cell) PosX() int32 {
-	return int32(c.x * c.width)
-}
-
-func (c *cell) PosY() int32 {
-	return int32(c.y * c.height)
-}
-
-func (c *cell) Rect() *sdl.Rect {
-	return &sdl.Rect{
-		X: c.PosX(),
-		Y: c.PosY(),
-		W: int32(c.width),
-		H: int32(c.height),
+func (c *cell) Dimensions() CellDimensions {
+	return CellDimensions{
+		X: c.x * c.width,
+		Y: c.y * c.height,
+		W: c.width,
+		H: c.height,
 	}
 }
 
@@ -79,14 +75,6 @@ func (c *cell) Texture() *sdl.Texture {
 
 func (c *cell) SetTexture(t *sdl.Texture) {
 	c.texture = t
-}
-
-func (c *cell) Width() int {
-	return c.width
-}
-
-func (c *cell) Height() int {
-	return c.height
 }
 
 func (c *cell) Elevation() int {

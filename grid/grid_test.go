@@ -32,7 +32,7 @@ func TestGrid(t *testing.T) {
 
 	// Test that a cell's coordinates match the requested cell.
 	FiveSeven := g.Cell(5, 7)
-	if FiveSeven.X() != 5 || FiveSeven.Y() != 7 {
+	if FiveSeven.GridX() != 5 || FiveSeven.GridY() != 7 {
 		t.Errorf("error: failed to retrieve cell coordinates")
 	}
 

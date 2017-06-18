@@ -52,7 +52,13 @@ func drawGrid(g Grid) error {
 	for x := 0; x < g.Width(); x++ {
 		for y := 0; y < g.Height(); y++ {
 			// Draw a black outline.
-			outer := g.Cell(x, y).Rect()
+			d := g.Cell(x, y).Dimensions()
+			outer := &sdl.Rect{
+				X: int32(d.X),
+				Y: int32(d.Y),
+				W: int32(d.W),
+				H: int32(d.H),
+			}
 			err = surface.FillRect(outer, 0xff000000)
 			if err != nil {
 				return err
