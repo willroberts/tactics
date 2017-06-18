@@ -62,6 +62,7 @@ func (m *menu) Font() *ttf.Font {
 	return m.font
 }
 
+// NewMenuParams stores the input to NewMenu().
 type NewMenuParams struct {
 	W        int32
 	H        int32
@@ -70,6 +71,7 @@ type NewMenuParams struct {
 	FontFile string
 }
 
+// NewMenu creates a new game menu with the given dimensions and font.
 func NewMenu(p NewMenuParams) (Menu, error) {
 	err := ttf.Init()
 	if err != nil {
