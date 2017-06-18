@@ -1,0 +1,16 @@
+hash: d53a251215f080c1719f324f9d8f63dd308f548b0f2173f2b800bb6569cb2ca5
+updated: 2017-06-18T12:48:57.172980675-07:00
+imports:
+- name: github.com/oliamb/cutter
+  version: 6bb26911f52436bb5c63667f9aaa2d1826b2df9e
+- name: github.com/salviati/go-tmx
+  version: e61613f80a4c75849cb31934e6656707eda69997
+  subpackages:
+  - tmx
+- name: github.com/veandco/go-sdl2
+  version: 2f90afa8b3ff0c0e7bf9a1819300a76442277e15
+  subpackages:
+  - img
+  - sdl
+  - ttf
+testImports: []
