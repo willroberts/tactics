@@ -133,14 +133,14 @@ func (s *spritesheet) Textures() []*sdl.Texture {
 	return s.textures
 }
 
-// FIXME: Move to engine package.
-// NOTE: Due to the SDL2 API requiring a string rather than a buffer or Reader
-// for img.Load(), we temporarily write an image to disk. :(
 func (s *spritesheet) CreateTexture(i image.Image, r *sdl.Renderer) (*sdl.Texture, error) {
+	// Due to the SDL2 API requiring a string rather than a buffer or Reader
+	// for img.Load(), we temporarily write an image to disk. :(
 	filename := ".t.png"
-	// Only os.PathError can be returned from os.Create.
-	// Since we create in the local directory, suppress the error.
-	f, _ := os.Create(filename)
+	f, err := os.Create(filename)
+	if err != nil {
+		return &sdl.Texture{}, err
+	}
 	defer func() { _ = os.Remove(filename) }()
 
 	if err := png.Encode(f, i); err != nil {
