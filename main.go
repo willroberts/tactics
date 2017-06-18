@@ -5,8 +5,8 @@ import (
 
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/engine"
+	"github.com/willroberts/tactics/game/unit"
 	"github.com/willroberts/tactics/grid"
-	"github.com/willroberts/tactics/unit"
 )
 
 const (

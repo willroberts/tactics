@@ -1,9 +1,9 @@
-use 'godoc cmd/github.com/willroberts/tactics/unit' for documentation on the github.com/willroberts/tactics/unit command 
+use 'godoc cmd/github.com/willroberts/tactics/game/unit' for documentation on the github.com/willroberts/tactics/game/unit command 
 
 PACKAGE DOCUMENTATION
 
 package unit
-    import "github.com/willroberts/tactics/unit"
+    import "github.com/willroberts/tactics/game/unit"
 
     Package unit contains game logic for controllable characters and NPCs.
 

@@ -10,12 +10,23 @@ package tmx
 
 FUNCTIONS
 
-func GetDimensions(m *gotmx.Map) (*dimensions, error)
-    GetDimensions returns the width, height, tile width, and tile height of
-    a Tiled map.
-
 func GetMap(filename string) (*gotmx.Map, error)
     GetMap returns a decoded Tiled map from the given filename.
+
+TYPES
+
+type MapDimensions struct {
+    W     int
+    H     int
+    TileW int
+    TileH int
+}
+    MapDimensions stores the width, height, tile width, and tile height for
+    a Tiled map.
+
+func Dimensions(m *gotmx.Map) (*MapDimensions, error)
+    Dimensions returns the width, height, tile width, and tile height of a
+    map.
 
 SUBDIRECTORIES
 

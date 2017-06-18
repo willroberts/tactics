@@ -11,14 +11,10 @@ package grid
 TYPES
 
 type Cell interface {
-    X() int
-    Y() int
+    GridX() int
+    GridY() int
 
-    PosX() int32
-    PosY() int32
-    Width() int
-    Height() int
-    Rect() *sdl.Rect
+    Dimensions() CellDimensions
 
     Color() uint32
     SetColor(uint32)
@@ -34,6 +30,16 @@ type Cell interface {
     IsOccupied() bool
 }
     Cell is a container at a specific position inside a Grid.
+
+type CellDimensions struct {
+    X int
+    Y int
+    W int
+    H int
+}
+    CellDimensions stores the visual representation data for a cell. X and Y
+    values are the number of pixels from (0,0). W and H are the pixel
+    dimensions of the cell.
 
 type Grid interface {
     Width() int
