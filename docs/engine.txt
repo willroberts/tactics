@@ -24,6 +24,8 @@ type SDLEngine interface {
     DrawTexture(*sdl.Texture) error
     UpdateSurface() error
 
+    Events() []sdl.Event
+
     PauseRendering(uint32)
     DestroyWindow()
 }
@@ -59,6 +61,6 @@ type Spritesheet interface {
 
 SUBDIRECTORIES
 
+	input
 	menu
-	testassets
 

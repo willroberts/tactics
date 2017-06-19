@@ -28,7 +28,4 @@ func Dimensions(m *gotmx.Map) (*MapDimensions, error)
     Dimensions returns the width, height, tile width, and tile height of a
     map.
 
-SUBDIRECTORIES
-
-	testassets
 
