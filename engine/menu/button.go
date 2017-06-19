@@ -6,5 +6,8 @@ import "github.com/veandco/go-sdl2/sdl"
 type Button struct {
 	Text string
 	Rect *sdl.Rect
-	// Action ???
+
+	// Handler is executed when the user presses a submit key with this Button
+	// selected.
+	Handler func() error
 }

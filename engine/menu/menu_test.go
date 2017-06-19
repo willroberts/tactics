@@ -3,98 +3,149 @@ package menu
 import (
 	"log"
 	"testing"
-
-	"github.com/veandco/go-sdl2/sdl"
-	"github.com/willroberts/tactics/engine"
-	"github.com/willroberts/tactics/engine/input"
 )
 
 const (
-	testFont    string = "testassets/font.ttf"
-	missingFont string = "testassets/missing.ttf"
-	frameTime   uint32 = 1000 / 30
-	width       int    = 640
-	height      int    = 480
+	menuWidth    int32 = 640
+	menuHeight   int32 = 480
+	buttonWidth  int32 = menuWidth / 2
+	buttonHeight int32 = 48
+
+	testFontFile string = "testassets/font.ttf"
+	badFontFile  string = "testassets/missing.ttf"
 )
 
 var (
-	m Menu
+	testMenu Menu
 )
 
-func TestMenu(t *testing.T) {
-	p := NewMenuParams{
-		W:        int32(width),
-		H:        int32(height),
-		ButtonW:  int32(width / 2),
-		ButtonH:  48,
-		FontFile: missingFont,
+func TestNewMenu(t *testing.T) {
+	params := NewMenuParams{
+		W:        menuWidth,
+		H:        menuHeight,
+		ButtonW:  buttonWidth,
+		ButtonH:  buttonHeight,
+		FontFile: testFontFile,
 	}
 	var err error
-	m, err = NewMenu(p)
-	if err == nil {
-		t.Errorf("error: failed to detect invalid font")
-	}
-	p.FontFile = testFont
-	m, err = NewMenu(p)
+	testMenu, err = NewMenu(params)
 	if err != nil {
-		t.Errorf("error: failed to create menu")
+		t.Errorf("error: failed to create menu: %v", err)
 	}
-	m.AddButton("Start Game")
-	m.AddButton("Settings")
-	m.AddButton("Quit")
 }
 
-func TestRendering(t *testing.T) {
-	// Test rendering.
-	eng, err := engine.NewSDLEngine("menu_test", 640, 480)
-	if err != nil {
-		t.Errorf("error: failed to get engine")
+func TestBadFontFile(t *testing.T) {
+	params := NewMenuParams{
+		W:        menuWidth,
+		H:        menuHeight,
+		ButtonW:  buttonWidth,
+		ButtonH:  buttonHeight,
+		FontFile: badFontFile,
+	}
+	var err error
+	_, err = NewMenu(params)
+	if err == nil {
+		t.Errorf("error: failed to detect bad font file")
+	}
+}
+
+func TestTTFInitFailure(t *testing.T) {
+	// TODO: Determine how to test ttf.Init() in NewMenu().
+}
+
+func TestFont(t *testing.T) {
+	if testMenu.Font() == nil {
+		t.Errorf("error: failed to set font")
+	}
+}
+
+func TestAddButton(t *testing.T) {
+	handlerFunc := func() error {
+		log.Println("button was clicked!")
+		return nil
+	}
+	testMenu.AddButton("button", handlerFunc)
+	if len(testMenu.Buttons()) != 1 {
+		t.Errorf("error: failed to create button")
+	}
+}
+
+func TestClearButtons(t *testing.T) {
+	testMenu.ClearButtons()
+	if len(testMenu.Buttons()) != 0 {
+		t.Errorf("error: failed to clear buttons")
+	}
+}
+
+func TestCursorPos(t *testing.T) {
+	if testMenu.CursorPos() != 0 {
+		t.Errorf("error: failed to set cursor position")
+	}
+}
+
+func TestCursorRect(t *testing.T) {
+	// Test without buttons (should fail).
+	_, err := testMenu.CursorRect()
+	if err == nil {
+		t.Errorf("error: attempted to create cursor rect with no buttons")
 	}
 
-	quit := false
-	for !quit {
-		_ = eng.ClearScreen()
-		_ = eng.DrawRect(&sdl.Rect{
-			X: 0,
-			Y: 0,
-			W: int32(width),
-			H: int32(height),
-		}, 0xff333333)
-		for _, b := range m.Buttons() {
-			err = eng.DrawLabel(b.Text, b.Rect, m.Font())
-			if err != nil {
-				t.Errorf("error: failed to draw label")
+	// Test with a button.
+	testMenu.AddButton("button", func() error { return nil })
+	_, _ = testMenu.CursorRect()
+}
+
+func TestCursorUp(t *testing.T) {
+	// Test multiple numbers of buttons, including once with no buttons.
+	testMenu.ClearButtons()
+	for i := 0; i < 5; i++ {
+		p1 := testMenu.CursorPos()
+		testMenu.CursorUp()
+		p2 := testMenu.CursorPos()
+
+		if len(testMenu.Buttons()) == 0 {
+			if p1 != 0 || p2 != 0 {
+				t.Errorf("error: moved cursor with no buttons present")
 			}
-		}
-
-		// Process Input (integration test).
-		for _, e := range eng.Events() {
-			res := input.HandleInput(e)
-			if res == input.ActionSubmit {
-				// FIXME: Implement selection.
-			} else if res == input.ActionQuit {
-				quit = true
-			} else if res == input.ActionUp {
-				m.CursorUp()
-			} else if res == input.ActionDown {
-				m.CursorDown()
-			} else if res == input.ActionRelease {
-				// Ignore.
-			} else {
-				log.Println("unknown action:", res)
+		} else if p1 == 0 {
+			// If p1 is the top of the list, p2 must be the bottom after wrapping.
+			if p2 != len(testMenu.Buttons())-1 {
+				t.Errorf("error: failed to wrap cursor from top")
 			}
+		} else if p1 != p2+1 {
+			// Otherwise, p2 should be one index lower (higher button).
+			log.Println("p1:", p1, " p2:", p2)
+			t.Errorf("error: failed to move cursor up")
 		}
 
-		err = eng.DrawRect(m.CursorRect(), 0xffff0000)
-		if err != nil {
-			t.Errorf("error: failed to draw cursor")
+		buttonFunc := func() error { return nil }
+		testMenu.AddButton("testbutton", buttonFunc)
+	}
+}
+
+func TestCursorDown(t *testing.T) {
+	// Test multiple numbers of buttons, including once with no buttons.
+	testMenu.ClearButtons()
+	testMenu.ResetCursor()
+	for i := 0; i < 5; i++ {
+		p1 := testMenu.CursorPos()
+		testMenu.CursorDown()
+		p2 := testMenu.CursorPos()
+		if len(testMenu.Buttons()) == 0 {
+			if p1 != 0 || p2 != 0 {
+				t.Errorf("error: moved cursor with no buttons present")
+			}
+		} else if p1 == len(testMenu.Buttons())-1 {
+			// If p1 is at the bottom of the list, p2 must be at the top after wrapping.
+			if p2 != 0 {
+				t.Errorf("error: failed to wrap cursor from bottom")
+			}
+		} else if p1 != p2-1 {
+			// Otherwise, p2 should be one index higher (lower button).
+			t.Errorf("error: failed to move cursor down")
 		}
 
-		err = eng.UpdateSurface()
-		if err != nil {
-			t.Errorf("error: failed to update surface")
-		}
-
-		eng.PauseRendering(frameTime)
+		buttonFunc := func() error { return nil }
+		testMenu.AddButton("testbutton", buttonFunc)
 	}
 }
