@@ -5,11 +5,7 @@ A 2D tactics game written in go.
 ## Packages
 
 * engine: sdl2-based game engine
-* engine/audio: music and sound effects
-* engine/input: keyboard and mouse input
 * engine/menu: menu logic and rendering
-* engine/sprite: png decoding into image.Image
-* game: logic code specific to the game we're making
 * game/unit: code for representing units (players, NPCs, objects)
 * grid: standalone code for representing game boards
 * tmx: standalone code for interacting with tiled files
@@ -18,10 +14,12 @@ A 2D tactics game written in go.
 
 ### Priority 1 (Core Features)
 
-* Menus
-* Audio
-* Sprite (Texture) Rendering
+* Put all test assets in one central location
+* Merge main.go and main_test.go (add menu to game)
+* Scenes
 * Input Handling
+* Sprite (Texture) Rendering
+* Audio
 
 ### Priority 2 (Design and Consistency)
 
