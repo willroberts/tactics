@@ -14,9 +14,6 @@ A 2D tactics game written in go.
 
 ### Priority 1 (Core Features)
 
-* Put all test assets in one central location
-* Merge main.go and main_test.go (add menu to game)
-* Scenes
 * Input Handling
 * Sprite (Texture) Rendering
 * Audio

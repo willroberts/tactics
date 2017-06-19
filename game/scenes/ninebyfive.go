@@ -12,21 +12,19 @@ const (
 	gridH int = 5
 	cellW int = 100
 	cellH int = 100
-	winW  int = gridW * cellW
-	winH  int = gridH * cellH
 
-	fTime   uint32 = 1000 / 30
 	cLtBlue uint32 = 0xff6495ed
 	cDkBlue uint32 = 0xff4682b4
 	cWhite  uint32 = 0xffffffff
 )
 
 type nineByFiveScene struct {
-	grid grid.Grid
 	eng  engine.SDLEngine
+	grid grid.Grid
 }
 
 func (s *nineByFiveScene) Setup() error {
+	s.eng.Window().SetSize(900, 500)
 	s.grid = grid.NewGrid(gridW, gridH, cellW, cellH)
 	s.grid.Checkerboard(cLtBlue, cDkBlue)
 

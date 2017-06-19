@@ -19,13 +19,41 @@ func main() {
 	}
 	defer eng.Window().Destroy()
 
-	scene := scenes.NewNineByFiveScene(eng)
+	// SCENE 1: MAIN MENU
+	scene := scenes.NewMainMenuScene(eng)
+	if err = scene.Setup(); err != nil {
+		log.Fatalln("error during menu scene setup:", err)
+	}
+
+	for {
+		err = scene.Main()
+		if err == scenes.ErrQuitting {
+			_ = scene.Teardown()
+			log.Println("quitting")
+			return
+		}
+		if err != nil {
+			log.Println("error:", err)
+			break
+		}
+	}
+
+	if err = scene.Teardown(); err != nil {
+		log.Println("error tearing down menu scene:", err)
+	}
+
+	// SCENE 2: NINE BY FIVE
+	scene = scenes.NewNineByFiveScene(eng)
 	if err = scene.Setup(); err != nil {
 		log.Fatalln("error during scene setup:", err)
 	}
 
 	for {
-		scene.Main()
+		err = scene.Main()
+		if err != nil {
+			log.Println("error:", err)
+			break
+		}
 	}
 
 	if err = scene.Teardown(); err != nil {
