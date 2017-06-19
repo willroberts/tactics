@@ -110,6 +110,7 @@ func (m *menu) ClearButtons() {
 	m.buttons = []*Button{}
 }
 
+// NewMenuParams stores the data required to create a game menu.
 type NewMenuParams struct {
 	W        int32
 	H        int32
@@ -118,6 +119,7 @@ type NewMenuParams struct {
 	FontFile string
 }
 
+// NewMenu creates a game menu with a font and a set of buttons.
 func NewMenu(p NewMenuParams) (Menu, error) {
 	err := ttf.Init()
 	if err != nil {
