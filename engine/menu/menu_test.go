@@ -11,8 +11,8 @@ const (
 	buttonWidth  int32 = menuWidth / 2
 	buttonHeight int32 = 48
 
-	testFontFile string = "testassets/font.ttf"
-	badFontFile  string = "testassets/missing.ttf"
+	testFontFile string = "../../assets/fonts/pixelated.ttf"
+	badFontFile  string = "../../assets/fonts/missing.ttf"
 )
 
 var (

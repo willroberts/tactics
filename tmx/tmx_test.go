@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	tiledFile   string = "testassets/grass.tmx"
-	badFile     string = "testassets/bad.tmx"
-	missingFile string = "testassets/missing.tmx"
+	tiledFile   string = "../assets/maps/map.tmx"
+	badFile     string = "../assets/maps/bad.tmx"
+	missingFile string = "../assets/maps/missing.tmx"
 )
 
 var (

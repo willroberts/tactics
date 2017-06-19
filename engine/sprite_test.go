@@ -8,14 +8,13 @@ import (
 )
 
 const (
-	pngFile    string = "testassets/spritesheet.png"
-	badPngFile string = "testassets/bad.png"
+	pngFile     string = "../assets/sprites/tilecrusader/tiles.png"
+	badPngFile  string = "../assets/sprites/bad.png"
+	invalidFile string = "../assets/sprites/missing.png"
 
-	tiledFile       string = "testassets/grass.tmx"
-	noTilesetsFile  string = "testassets/zero.tmx"
-	twoTilesetsFile string = "testassets/two.tmx"
-
-	invalidFile string = "testassets/nonexistent.png"
+	tiledFile       string = "../assets/maps/map.tmx"
+	noTilesetsFile  string = "../assets/maps/notilesets.tmx"
+	twoTilesetsFile string = "../assets/maps/twotilesets.tmx"
 )
 
 var (
