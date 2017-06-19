@@ -35,6 +35,12 @@ func NewSDLEngine(title string, width int, height int) (SDLEngine, error)
     NewSDLEngine creates an SDL window, surface, and renderer with the given
     properties. Implements and returns the SDLEngine interface.
 
+type Scene interface {
+    Setup() error
+    Main() error
+    Teardown() error
+}
+
 type Spritesheet interface {
     Image() image.Image
 

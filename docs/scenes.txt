@@ -1,0 +1,22 @@
+use 'godoc cmd/github.com/willroberts/tactics/game/scenes' for documentation on the github.com/willroberts/tactics/game/scenes command 
+
+PACKAGE DOCUMENTATION
+
+package scenes
+    import "github.com/willroberts/tactics/game/scenes"
+
+
+VARIABLES
+
+var (
+    ErrStartingGame error = errors.New("starting game")
+    ErrQuitting     error = errors.New("quitting")
+)
+
+FUNCTIONS
+
+func NewMainMenuScene(e engine.SDLEngine) engine.Scene
+
+func NewNineByFiveScene(e engine.SDLEngine) engine.Scene
+
+

@@ -6,6 +6,8 @@ A 2D tactics game written in go.
 
 * engine: sdl2-based game engine
 * engine/menu: menu logic and rendering
+* engine/input: keyboard and mouse handling
+* game/scenes: scenes for the game
 * game/unit: code for representing units (players, NPCs, objects)
 * grid: standalone code for representing game boards
 * tmx: standalone code for interacting with tiled files

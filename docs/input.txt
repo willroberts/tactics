@@ -1,0 +1,29 @@
+use 'godoc cmd/github.com/willroberts/tactics/engine/input' for documentation on the github.com/willroberts/tactics/engine/input command 
+
+PACKAGE DOCUMENTATION
+
+package input
+    import "github.com/willroberts/tactics/engine/input"
+
+
+CONSTANTS
+
+const (
+    ActionSubmit int = iota
+    ActionQuit
+    ActionUp
+    ActionDown
+    ActionLeft
+    ActionRight
+    ActionRelease
+    ActionUnknown
+)
+
+FUNCTIONS
+
+func HandleInput(e sdl.Event) int
+
+SUBDIRECTORIES
+
+	cmd
+
