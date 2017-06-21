@@ -16,7 +16,14 @@ A 2D tactics game written in go.
 
 ### Priority 1 (Core Features)
 
+* Menu System
+	* Settings Menu
+	* Resolution Setting (Resize SDLEngine.Window)
+	* sdl.WindowEvent?
 * Input Handling
+	* Don't use "starting game" as an error
+	* Clean up interface once required components are in
+	* Tests
 * Sprite (Texture) Rendering
 * Audio
 
