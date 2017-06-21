@@ -2,8 +2,9 @@
 
 A 2D tactics game written in go.
 
-## Packages
+## Documentations
 
+See godoc.org/github.com/willroberts/tactics
 * engine: sdl2-based game engine
 * engine/menu: menu logic and rendering
 * engine/input: keyboard and mouse handling
@@ -14,23 +15,16 @@ A 2D tactics game written in go.
 
 ## To Do
 
-At some point, read over the go-sdl2 source code. Might be a good way to learn
-about things like keycode constants before accidentally reimplementing them!
+Core Features
 
-### Priority 1 (Core Features)
+* Render an isometric grid
+* Render an isometric grid with sprite textures
+* Read https://godoc.org/github.com/veandco/go-sdl2/sdl
+* Allow resolution adjustment in Settings menu
+* Clean up input package, add tests
+* Add music and sound effects
 
-* Menu System
-	* Settings Menu
-	* Resolution Setting (Resize SDLEngine.Window)
-	* sdl.WindowEvent?
-* Input Handling
-	* Don't use "starting game" as an error
-	* Clean up interface once required components are in
-	* Tests
-* Sprite (Texture) Rendering
-* Audio
-
-### Priority 2 (Design and Consistency)
+Design and Organization
 
 * Remove all SDL-specific code from grid package (?)
 	* OR: move grid to engine/grid
@@ -39,9 +33,8 @@ about things like keycode constants before accidentally reimplementing them!
 	* Checkerboard & CheckerColor funcs for color operations
 * Move tmx to engine/tmx
 * Evaluate usage of int32 (engine)
-* Add OpenGL Context for 3D rendering (engine)
 
-### Priority 3 (Release)
+Packaging and Polish
 
 * 100% test coverage
 * Comment audit
