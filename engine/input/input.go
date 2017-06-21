@@ -11,9 +11,7 @@ const (
 	ActionQuit
 	ActionUp
 	ActionDown
-	ActionLeft
-	ActionRight
-	ActionRelease
+	ActionNotImplemented
 	ActionUnknown
 )
 
@@ -28,32 +26,63 @@ var (
 	}
 )
 
+// FIXME: Pull non-input events out of this code!
+// FIXME: Determine why KeyDownEvent and TextInputEvent are things. Sometimes Q
+// will trigger one but not the other.
 func HandleInput(e sdl.Event) int {
 	switch t := e.(type) {
 	case *sdl.QuitEvent:
 		return ActionQuit
+	case *sdl.TextInputEvent:
+		key := textToKey(t)
+		return handleKey(key)
 	case *sdl.KeyDownEvent:
-		keyPressed := t.Keysym.Sym
-		log.Println("key pressed:", keyPressed)
-		if submitMap[keyPressed] {
-			return ActionSubmit
-		}
-		if quitMap[keyPressed] {
-			return ActionQuit
-		}
-		if keyPressed == keyArrowUp {
-			return ActionUp
-		}
-		if keyPressed == keyArrowDown {
-			return ActionDown
-		}
+		key := t.Keysym.Sym
+		return handleKey(key)
 	case *sdl.KeyUpEvent:
-		// FIXME: Implement.
-		keyReleased := t.Keysym.Sym
-		_ = keyReleased
-		return ActionRelease
+		// TODO: Implement this.
+		return ActionNotImplemented
+	case *sdl.MouseMotionEvent:
+		// TODO: Implement this.
+		return ActionNotImplemented
+	case *sdl.WindowEvent:
+		// TODO: Implement this.
+		return ActionNotImplemented
 	default:
+		log.Println("unknown action was:", t)
 		return ActionUnknown
 	}
+	// This should never be reached, but go complains about missing return at end
+	// of function.
 	return ActionUnknown
+}
+
+// The first byte of t.Text contains the ASCII ID of the key pressed.
+// For example, 'a' is 97, 'b' is 98, 'A' is 65, 'B" is 66, etc.
+func textToKey(t *sdl.TextInputEvent) sdl.Keycode {
+	k := t.Text[0]
+	log.Println("k:", k)
+	return sdl.K_UNKNOWN
+}
+
+func handleKey(key sdl.Keycode) int {
+	if key == 0 {
+		// I believe this is another way of handling KeyUpEvent
+		return ActionNotImplemented
+	}
+	log.Println("key pressed:", key)
+	if submitMap[key] {
+		return ActionSubmit
+	}
+	if quitMap[key] {
+		return ActionQuit
+	}
+	if key == keyArrowUp {
+		return ActionUp
+	}
+	if key == keyArrowDown {
+		return ActionDown
+	}
+	// TODO: Implement handling (or ignoring) of other keypresses.
+	return ActionNotImplemented
 }
