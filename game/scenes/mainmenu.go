@@ -91,6 +91,8 @@ func (s *mainMenuScene) Main() error {
 			s.m.CursorUp()
 		} else if res == input.ActionDown {
 			s.m.CursorDown()
+		} else if res == input.ActionNotImplemented {
+			// Ignore.
 		} else {
 			log.Println("unhandled action:", res)
 		}
