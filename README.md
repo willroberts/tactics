@@ -14,6 +14,9 @@ A 2D tactics game written in go.
 
 ## To Do
 
+At some point, read over the go-sdl2 source code. Might be a good way to learn
+about things like keycode constants before accidentally reimplementing them!
+
 ### Priority 1 (Core Features)
 
 * Menu System
