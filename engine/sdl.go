@@ -96,6 +96,10 @@ func (s *sdlengine) UpdateSurface() error {
 	return s.window.UpdateSurface()
 }
 
+// Events reads all pending events from the event loop, and returns them as a
+// slice.
+// FIXME: Determine the best way to do event processing, so we don't drop any
+// events accidentally.
 func (s *sdlengine) Events() []sdl.Event {
 	events := []sdl.Event{}
 	for {
