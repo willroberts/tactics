@@ -11,14 +11,26 @@ package engine
 
 TYPES
 
+type Camera interface {
+    MoveTo(int32, int32)
+    Position() (int32, int32)
+}
+
+func NewCamera() Camera
+
 type SDLEngine interface {
     Window() *sdl.Window
     Surface() *sdl.Surface
     Renderer() *sdl.Renderer
+    Camera() Camera
 
     ProcessTextures(Spritesheet) error
 
+    CameraShift(*sdl.Rect) *sdl.Rect
+    CameraShiftVector([]int16, []int16) ([]int16, []int16)
+
     ClearScreen() error
+    FillWindow(uint32) error
     DrawRect(*sdl.Rect, uint32) error
     DrawIsometricRect(*sdl.Rect, uint32) error
     DrawLabel(string, *sdl.Rect, *ttf.Font) error
