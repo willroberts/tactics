@@ -14,10 +14,15 @@ type SDLEngine interface {
 	Window() *sdl.Window
 	Surface() *sdl.Surface
 	Renderer() *sdl.Renderer
+	Camera() Camera
 
 	ProcessTextures(Spritesheet) error
 
+	CameraShift(*sdl.Rect) *sdl.Rect
+	CameraShiftVector([]int16, []int16) ([]int16, []int16)
+
 	ClearScreen() error
+	FillWindow(uint32) error
 	DrawRect(*sdl.Rect, uint32) error
 	DrawIsometricRect(*sdl.Rect, uint32) error
 	DrawLabel(string, *sdl.Rect, *ttf.Font) error
@@ -34,6 +39,7 @@ type sdlengine struct {
 	window   *sdl.Window
 	surface  *sdl.Surface
 	renderer *sdl.Renderer
+	camera   Camera
 }
 
 func (s *sdlengine) Window() *sdl.Window {
@@ -48,6 +54,10 @@ func (s *sdlengine) Renderer() *sdl.Renderer {
 	return s.renderer
 }
 
+func (s *sdlengine) Camera() Camera {
+	return s.camera
+}
+
 func (s *sdlengine) ProcessTextures(ss Spritesheet) error {
 	for _, im := range ss.Sprites() {
 		tex, err := ss.CreateTexture(im, s.Renderer())
@@ -59,16 +69,43 @@ func (s *sdlengine) ProcessTextures(ss Spritesheet) error {
 	return nil
 }
 
+func (s *sdlengine) CameraShift(r *sdl.Rect) *sdl.Rect {
+	camX, camY := s.Camera().Position()
+	r.X = r.X - camX
+	r.Y = r.Y - camY
+	return r
+}
+
+func (s *sdlengine) CameraShiftVector(vx, vy []int16) ([]int16, []int16) {
+	camX, camY := s.Camera().Position()
+	for i, x := range vx {
+		vx[i] = x - int16(camX)
+	}
+	for i, y := range vy {
+		vy[i] = y - int16(camY)
+	}
+	return vx, vy
+}
+
 func (s *sdlengine) ClearScreen() error {
 	return s.renderer.Clear()
 }
 
+func (s *sdlengine) FillWindow(color uint32) error {
+	// Rect is not shifted according to camera position like others.
+	w, h := s.Window().GetSize()
+	rect := &sdl.Rect{X: 0, Y: 0, W: int32(w), H: int32(h)}
+	return s.surface.FillRect(rect, color)
+}
+
 func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
+	rect = s.CameraShift(rect)
 	return s.surface.FillRect(rect, color)
 }
 
 func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
 	vx, vy := cartesianToIsoPoly(rect)
+	vx, vy = s.CameraShiftVector(vx, vy)
 	if b := gfx.FilledPolygonColor(s.Renderer(), vx, vy, colorToRGBA(color)); !b {
 		return errors.New("error: FilledPolygonColor() returned false")
 	}
@@ -76,6 +113,7 @@ func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
 }
 
 func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error {
+	rect = s.CameraShift(rect)
 	// FIXME: See if label has width and height? For automatic rect sizing.
 	label, err := font.RenderUTF8_Solid(text, sdl.Color{
 		R: 255,
@@ -95,6 +133,8 @@ func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error
 	return nil
 }
 
+// FIXME: Actually implement this at some point instead of using hardcoded
+// values to make tests pass.
 func (s *sdlengine) DrawTexture(tex *sdl.Texture) error {
 	src := &sdl.Rect{X: 0, Y: 0, W: 20, H: 20}
 	dst := &sdl.Rect{X: 20, Y: 20, W: 20, H: 20}
@@ -156,6 +196,8 @@ func NewSDLEngine(title string, width int, height int) (SDLEngine, error) {
 		return s, err
 	}
 	s.renderer = renderer
+
+	s.camera = NewCamera()
 
 	return s, nil
 }
