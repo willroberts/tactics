@@ -22,12 +22,12 @@ const (
 	cWhite  uint32 = 0xffffffff
 )
 
-type nineByFiveScene struct {
+type isometricScene struct {
 	eng  engine.SDLEngine
 	grid grid.Grid
 }
 
-func (s *nineByFiveScene) Setup() error {
+func (s *isometricScene) Setup() error {
 	s.eng.Window().SetSize(int(gameWidth), int(gameHeight))
 	s.grid = grid.NewGrid(gridW, gridH, cellW, cellH)
 	s.grid.Checkerboard(cLtBlue, cDkBlue)
@@ -41,7 +41,7 @@ func (s *nineByFiveScene) Setup() error {
 	return nil
 }
 
-func (s *nineByFiveScene) Main() error {
+func (s *isometricScene) Main() error {
 	err := s.eng.ClearScreen()
 	if err != nil {
 		return err
@@ -88,10 +88,10 @@ func (s *nineByFiveScene) Main() error {
 	return nil
 }
 
-func (s *nineByFiveScene) Teardown() error {
+func (s *isometricScene) Teardown() error {
 	return nil
 }
 
-func NewNineByFiveScene(e engine.SDLEngine) engine.Scene {
-	return &nineByFiveScene{eng: e}
+func NewIsometricScene(e engine.SDLEngine) engine.Scene {
+	return &isometricScene{eng: e}
 }

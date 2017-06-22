@@ -42,8 +42,8 @@ func main() {
 		log.Println("error tearing down menu scene:", err)
 	}
 
-	// SCENE 2: NINE BY FIVE
-	scene = scenes.NewNineByFiveScene(eng)
+	// SCENE 2: ISOMETRIC
+	scene = scenes.NewIsometricScene(eng)
 	if err = scene.Setup(); err != nil {
 		log.Fatalln("error during scene setup:", err)
 	}
