@@ -18,9 +18,6 @@ type SDLEngine interface {
 
 	ProcessTextures(Spritesheet) error
 
-	CameraShift(*sdl.Rect) *sdl.Rect
-	CameraShiftVector([]int16, []int16) ([]int16, []int16)
-
 	ClearScreen() error
 	FillWindow(uint32) error
 	DrawRect(*sdl.Rect, uint32) error
@@ -69,24 +66,6 @@ func (s *sdlengine) ProcessTextures(ss Spritesheet) error {
 	return nil
 }
 
-func (s *sdlengine) CameraShift(r *sdl.Rect) *sdl.Rect {
-	camX, camY := s.Camera().Position()
-	r.X = r.X - camX
-	r.Y = r.Y - camY
-	return r
-}
-
-func (s *sdlengine) CameraShiftVector(vx, vy []int16) ([]int16, []int16) {
-	camX, camY := s.Camera().Position()
-	for i, x := range vx {
-		vx[i] = x - int16(camX)
-	}
-	for i, y := range vy {
-		vy[i] = y - int16(camY)
-	}
-	return vx, vy
-}
-
 func (s *sdlengine) ClearScreen() error {
 	return s.renderer.Clear()
 }
@@ -99,13 +78,13 @@ func (s *sdlengine) FillWindow(color uint32) error {
 }
 
 func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
-	rect = s.CameraShift(rect)
+	rect = s.Camera().ShiftRect(rect)
 	return s.surface.FillRect(rect, color)
 }
 
 func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
 	vx, vy := cartesianToIsoPoly(rect)
-	vx, vy = s.CameraShiftVector(vx, vy)
+	vx, vy = s.Camera().ShiftVectors(vx, vy)
 	if b := gfx.FilledPolygonColor(s.Renderer(), vx, vy, colorToRGBA(color)); !b {
 		return errors.New("error: FilledPolygonColor() returned false")
 	}
@@ -113,7 +92,7 @@ func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
 }
 
 func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error {
-	rect = s.CameraShift(rect)
+	rect = s.Camera().ShiftRect(rect)
 	// FIXME: See if label has width and height? For automatic rect sizing.
 	label, err := font.RenderUTF8_Solid(text, sdl.Color{
 		R: 255,
