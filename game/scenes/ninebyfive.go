@@ -8,13 +8,17 @@ import (
 )
 
 const (
-	gridW int = 9
-	gridH int = 5
-	cellW int = 100
-	cellH int = 100
+	gridW int = 12
+	gridH int = 12
+	cellW int = 40
+	cellH int = 40
 
-	cLtBlue uint32 = 0xff6495ed
+	gameWidth  int32 = 1280
+	gameHeight int32 = 720
+
+	cBlack  uint32 = 0xff000000
 	cDkBlue uint32 = 0xff4682b4
+	cLtBlue uint32 = 0xff6495ed
 	cWhite  uint32 = 0xffffffff
 )
 
@@ -24,7 +28,7 @@ type nineByFiveScene struct {
 }
 
 func (s *nineByFiveScene) Setup() error {
-	s.eng.Window().SetSize(900, 500)
+	s.eng.Window().SetSize(int(gameWidth), int(gameHeight))
 	s.grid = grid.NewGrid(gridW, gridH, cellW, cellH)
 	s.grid.Checkerboard(cLtBlue, cDkBlue)
 
@@ -43,10 +47,15 @@ func (s *nineByFiveScene) Main() error {
 		return err
 	}
 
+	err = s.eng.DrawRect(&sdl.Rect{0, 0, gameWidth, gameHeight}, cBlack)
+	if err != nil {
+		return err
+	}
+
 	for _, col := range s.grid.Cells() {
 		for _, cell := range col {
 			d := cell.Dimensions()
-			err = s.eng.DrawRect(&sdl.Rect{
+			err = s.eng.DrawIsometricRect(&sdl.Rect{
 				X: int32(d.X),
 				Y: int32(d.Y),
 				W: int32(d.W),
@@ -57,7 +66,7 @@ func (s *nineByFiveScene) Main() error {
 			}
 
 			if cell.IsOccupied() {
-				err = s.eng.DrawRect(&sdl.Rect{
+				err = s.eng.DrawIsometricRect(&sdl.Rect{
 					X: int32(d.X + (d.W / 4)),
 					Y: int32(d.Y + (d.H / 4)),
 					W: int32(d.W / 2),

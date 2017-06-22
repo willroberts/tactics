@@ -23,6 +23,10 @@ Core Features
 * Allow resolution adjustment in Settings menu
 * Clean up input package, add tests
 * Add music and sound effects
+* Add units
+* Add assets from http://flarerpg.org/
+* Add movement logic
+* Add turn-based combat logic
 
 Design and Organization
 
