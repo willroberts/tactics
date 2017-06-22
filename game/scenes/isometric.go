@@ -17,6 +17,7 @@ const (
 	gameHeight int32 = 720
 
 	cBlack  uint32 = 0xff000000
+	cDkGray uint32 = 0xff333333
 	cDkBlue uint32 = 0xff4682b4
 	cLtBlue uint32 = 0xff6495ed
 	cWhite  uint32 = 0xffffffff
@@ -29,6 +30,10 @@ type isometricScene struct {
 
 func (s *isometricScene) Setup() error {
 	s.eng.Window().SetSize(int(gameWidth), int(gameHeight))
+
+	// FIXME: Find a better way to derive these values.
+	s.eng.Camera().MoveTo(-gameWidth/2, -gameHeight/5)
+
 	s.grid = grid.NewGrid(gridW, gridH, cellW, cellH)
 	s.grid.Checkerboard(cLtBlue, cDkBlue)
 
@@ -47,7 +52,7 @@ func (s *isometricScene) Main() error {
 		return err
 	}
 
-	err = s.eng.DrawRect(&sdl.Rect{0, 0, gameWidth, gameHeight}, cBlack)
+	err = s.eng.FillWindow(cDkGray)
 	if err != nil {
 		return err
 	}
