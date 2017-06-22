@@ -15,8 +15,8 @@ var (
 
 FUNCTIONS
 
-func NewMainMenuScene(e engine.SDLEngine) engine.Scene
+func NewIsometricScene(e engine.SDLEngine) engine.Scene
 
-func NewNineByFiveScene(e engine.SDLEngine) engine.Scene
+func NewMainMenuScene(e engine.SDLEngine) engine.Scene
 
 

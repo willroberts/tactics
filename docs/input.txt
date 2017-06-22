@@ -13,15 +13,16 @@ const (
     ActionQuit
     ActionUp
     ActionDown
-    ActionLeft
-    ActionRight
-    ActionRelease
+    ActionNotImplemented
     ActionUnknown
 )
 
 FUNCTIONS
 
 func HandleInput(e sdl.Event) int
+    FIXME: Pull non-input events out of this code! FIXME: Determine why
+    KeyDownEvent and TextInputEvent are things. Sometimes Q will trigger one
+    but not the other.
 
 SUBDIRECTORIES
 

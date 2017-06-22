@@ -20,6 +20,7 @@ type SDLEngine interface {
 
     ClearScreen() error
     DrawRect(*sdl.Rect, uint32) error
+    DrawIsometricRect(*sdl.Rect, uint32) error
     DrawLabel(string, *sdl.Rect, *ttf.Font) error
     DrawTexture(*sdl.Texture) error
     UpdateSurface() error
@@ -40,6 +41,9 @@ type Scene interface {
     Main() error
     Teardown() error
 }
+    Scene is a generic interface for types which interact with SDLEngine.
+    They may resize the game window, make draw calls, interact with the
+    event loop, and more.
 
 type Spritesheet interface {
     Image() image.Image
