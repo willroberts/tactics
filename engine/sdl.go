@@ -86,6 +86,7 @@ func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
 	vx, vy := cartesianToIsoPoly(rect)
 	vx, vy = s.Camera().ShiftVectors(vx, vy)
 	if b := gfx.FilledPolygonColor(s.Renderer(), vx, vy, colorToRGBA(color)); !b {
+		// FIXME: Determine how to test (or suppress) this.
 		return errors.New("error: FilledPolygonColor() returned false")
 	}
 	return nil
@@ -101,11 +102,13 @@ func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error
 		A: 255,
 	})
 	if err != nil {
+		// FIXME: Determine how to test (or suppress) this.
 		return err
 	}
 	defer label.Free()
 
 	if err = label.Blit(nil, s.Surface(), rect); err != nil {
+		// FIXME: Determine how to test (or suppress) this.
 		return err
 	}
 
