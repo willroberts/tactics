@@ -17,19 +17,18 @@ See godoc.org/github.com/willroberts/tactics
 
 Core Features
 
-* Render an isometric grid
-* Render an isometric grid with sprite textures
-* Read https://godoc.org/github.com/veandco/go-sdl2/sdl
 * Allow resolution adjustment in Settings menu
 * Clean up input package, add tests
 * Add music and sound effects
 * Add units
+* Add sprite textures
 * Add assets from http://flarerpg.org/
 * Add movement logic
 * Add turn-based combat logic
 
 Design and Organization
 
+* Read https://godoc.org/github.com/veandco/go-sdl2/sdl
 * Remove all SDL-specific code from grid package (?)
 	* OR: move grid to engine/grid
 	* Textures stored in cells
