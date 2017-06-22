@@ -1,6 +1,10 @@
 package engine
 
 import (
+	"encoding/binary"
+	"errors"
+
+	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
 )
@@ -15,6 +19,7 @@ type SDLEngine interface {
 
 	ClearScreen() error
 	DrawRect(*sdl.Rect, uint32) error
+	DrawIsometricRect(*sdl.Rect, uint32) error
 	DrawLabel(string, *sdl.Rect, *ttf.Font) error
 	DrawTexture(*sdl.Texture) error
 	UpdateSurface() error
@@ -60,6 +65,14 @@ func (s *sdlengine) ClearScreen() error {
 
 func (s *sdlengine) DrawRect(rect *sdl.Rect, color uint32) error {
 	return s.surface.FillRect(rect, color)
+}
+
+func (s *sdlengine) DrawIsometricRect(rect *sdl.Rect, color uint32) error {
+	vx, vy := cartesianToIsoPoly(rect)
+	if b := gfx.FilledPolygonColor(s.Renderer(), vx, vy, colorToRGBA(color)); !b {
+		return errors.New("error: FilledPolygonColor() returned false")
+	}
+	return nil
 }
 
 func (s *sdlengine) DrawLabel(text string, rect *sdl.Rect, font *ttf.Font) error {
@@ -145,4 +158,32 @@ func NewSDLEngine(title string, width int, height int) (SDLEngine, error) {
 	s.renderer = renderer
 
 	return s, nil
+}
+
+func colorToRGBA(color uint32) sdl.Color {
+	rgba := make([]byte, 4)
+	binary.BigEndian.PutUint32(rgba, color)
+	// Byte format is ARGB
+	return sdl.Color{R: rgba[1], G: rgba[2], B: rgba[3], A: rgba[0]}
+}
+
+func cartesianToIsoPoly(rect *sdl.Rect) ([]int16, []int16) {
+	points := [][]int16{
+		[]int16{int16(rect.X), int16(rect.Y)},
+		[]int16{int16(rect.X), int16(rect.Y) + int16(rect.H)},
+		[]int16{int16(rect.X) + int16(rect.W), int16(rect.Y) + int16(rect.H)},
+		[]int16{int16(rect.X) + int16(rect.W), int16(rect.Y)},
+	}
+
+	ip := make([][]int16, 4)
+	for i, point := range points {
+		newpoint := make([]int16, 2)
+		newpoint[0] = point[0] - point[1]
+		newpoint[1] = (point[0] + point[1]) / 2
+		ip[i] = newpoint
+	}
+
+	vx := []int16{ip[0][0], ip[1][0], ip[2][0], ip[3][0]}
+	vy := []int16{ip[0][1], ip[1][1], ip[2][1], ip[3][1]}
+	return vx, vy
 }
