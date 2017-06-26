@@ -14,6 +14,8 @@ TYPES
 type Camera interface {
     MoveTo(int32, int32)
     Position() (int32, int32)
+    ShiftRect(*sdl.Rect) *sdl.Rect
+    ShiftVectors([]int16, []int16) ([]int16, []int16)
 }
 
 func NewCamera() Camera
@@ -25,9 +27,6 @@ type SDLEngine interface {
     Camera() Camera
 
     ProcessTextures(Spritesheet) error
-
-    CameraShift(*sdl.Rect) *sdl.Rect
-    CameraShiftVector([]int16, []int16) ([]int16, []int16)
 
     ClearScreen() error
     FillWindow(uint32) error
@@ -44,9 +43,9 @@ type SDLEngine interface {
 }
     SDLEngine is our interface to SDL2.
 
-func NewSDLEngine(title string, width int, height int) (SDLEngine, error)
+func NewSDLEngine(title string) (SDLEngine, error)
     NewSDLEngine creates an SDL window, surface, and renderer with the given
-    properties. Implements and returns the SDLEngine interface.
+    title. Implements and returns the SDLEngine interface.
 
 type Scene interface {
     Setup() error
