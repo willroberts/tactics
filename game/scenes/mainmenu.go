@@ -17,14 +17,10 @@ const (
 	cRed     uint32 = 0xffff0000
 )
 
-var (
-	ErrStartingGame error = errors.New("starting game")
-	ErrQuitting     error = errors.New("quitting")
-)
-
 type mainMenuScene struct {
-	eng engine.SDLEngine
-	m   menu.Menu
+	eng        engine.SDLEngine
+	m          menu.Menu
+	controller input.MenuController
 }
 
 func (s *mainMenuScene) Setup() error {
@@ -44,12 +40,15 @@ func (s *mainMenuScene) Setup() error {
 	s.m = m
 
 	m.AddButton("Start Game", func() error {
-		return ErrStartingGame
+		return errors.New("dear engine: please continue to next scene")
 	})
 
 	m.AddButton("Quit", func() error {
-		return ErrQuitting
+		return errors.New("dear engine: please quit the game")
 	})
+
+	c := input.NewMenuController(m)
+	s.controller = c
 
 	return nil
 }
@@ -79,21 +78,9 @@ func (s *mainMenuScene) Main() error {
 		}
 	}
 
-	for _, e := range s.eng.Events() {
-		res := input.HandleInput(e)
-		if res == input.ActionSubmit {
-			return s.m.Buttons()[s.m.CursorPos()].Handler()
-		} else if res == input.ActionQuit {
-			return ErrQuitting
-		} else if res == input.ActionUp {
-			s.m.CursorUp()
-		} else if res == input.ActionDown {
-			s.m.CursorDown()
-		} else if res == input.ActionNotImplemented {
-			// Ignore.
-		} else {
-			log.Println("unhandled action:", res)
-		}
+	err = s.controller.ProcessEvents(s.eng.Events())
+	if err != nil {
+		log.Println("failed to click button:", err)
 	}
 
 	cr, err := s.m.CursorRect()

@@ -19,20 +19,12 @@ func main() {
 	if err = scene.Setup(); err != nil {
 		log.Fatalln("error during menu scene setup:", err)
 	}
-
 	for {
-		err = scene.Main()
-		if err == scenes.ErrQuitting {
-			_ = scene.Teardown()
-			log.Println("quitting")
-			return
-		}
-		if err != nil {
+		if err := scene.Main(); err != nil {
 			log.Println("error:", err)
 			break
 		}
 	}
-
 	if err = scene.Teardown(); err != nil {
 		log.Println("error tearing down menu scene:", err)
 	}
@@ -42,15 +34,12 @@ func main() {
 	if err = scene.Setup(); err != nil {
 		log.Fatalln("error during scene setup:", err)
 	}
-
 	for {
-		err = scene.Main()
-		if err != nil {
+		if err := scene.Main(); err != nil {
 			log.Println("error:", err)
 			break
 		}
 	}
-
 	if err = scene.Teardown(); err != nil {
 		log.Println("error during scene teardown:", err)
 	}
