@@ -17,8 +17,6 @@ See godoc.org/github.com/willroberts/tactics
 
 Core Features
 
-* Make the ESC key quit the game in isometric scene
-* Make the Q key also quit the game
 * Clean up input package, add tests
 * Allow resolution adjustment in Settings menu
 * Add units
