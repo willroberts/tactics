@@ -17,6 +17,7 @@ See godoc.org/github.com/willroberts/tactics
 
 Core Features
 
+* Allow camera movement in both X and Y directions simultaneously.
 * Clean up input package, add tests
 * Allow resolution adjustment in Settings menu
 * Add units
