@@ -18,7 +18,6 @@ See godoc.org/github.com/willroberts/tactics
 Core Features
 
 * Clean up input package, add tests
-  * Too much handling in userspace
 * Clean up code in existing scenes
 	* Use FillWindow helper in menu scenes
 * Allow resolution adjustment in Settings menu
