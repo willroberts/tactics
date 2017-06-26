@@ -62,8 +62,10 @@ func HandleInput(e sdl.Event) int {
 // The first byte of t.Text contains the ASCII ID of the key pressed.
 // For example, 'a' is 97, 'b' is 98, 'A' is 65, 'B" is 66, etc.
 func textToKey(t *sdl.TextInputEvent) sdl.Keycode {
-	k := t.Text[0]
-	log.Println("k:", k)
+	keycode := t.Text[0]
+	if keycode == 113 {
+		return sdl.K_q
+	}
 	return sdl.K_UNKNOWN
 }
 
