@@ -17,14 +17,17 @@ See godoc.org/github.com/willroberts/tactics
 
 Core Features
 
-* Allow resolution adjustment in Settings menu
 * Clean up input package, add tests
-* Add music and sound effects
+  * Too much handling in userspace
+* Clean up code in existing scenes
+	* Use FillWindow helper in menu scenes
+* Allow resolution adjustment in Settings menu
 * Add units
 * Add sprite textures
-* Add assets from http://flarerpg.org/
+* Add assets from http://flarerpg.org
 * Add movement logic
 * Add turn-based combat logic
+* Add music and sound effects
 
 Design and Organization
 
