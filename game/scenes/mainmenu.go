@@ -12,13 +12,9 @@ import (
 
 const (
 	fontFile string = "assets/fonts/pixelated.ttf"
-
-	winW int = 640
-	winH int = 480
-
-	fTime uint32 = 1000 / 30
-	cGray uint32 = 0xff333333
-	cRed  uint32 = 0xffff0000
+	fTime    uint32 = 1000 / 30
+	cGray    uint32 = 0xff333333
+	cRed     uint32 = 0xffff0000
 )
 
 var (
@@ -32,11 +28,11 @@ type mainMenuScene struct {
 }
 
 func (s *mainMenuScene) Setup() error {
-	s.eng.Window().SetSize(winW, winH)
+	w, h := s.eng.Window().GetSize()
 	p := menu.NewMenuParams{
-		W:        int32(winW),
-		H:        int32(winH),
-		ButtonW:  int32(winW / 2),
+		W:        int32(w),
+		H:        int32(h),
+		ButtonW:  int32(w / 2),
 		ButtonH:  48,
 		FontFile: fontFile,
 	}
@@ -59,6 +55,8 @@ func (s *mainMenuScene) Setup() error {
 }
 
 func (s *mainMenuScene) Main() error {
+	w, h := s.eng.Window().GetSize()
+
 	err := s.eng.ClearScreen()
 	if err != nil {
 		return err
@@ -67,8 +65,8 @@ func (s *mainMenuScene) Main() error {
 	err = s.eng.DrawRect(&sdl.Rect{
 		X: 0,
 		Y: 0,
-		W: int32(winW),
-		H: int32(winH),
+		W: int32(w),
+		H: int32(h),
 	}, cGray)
 	if err != nil {
 		return err
