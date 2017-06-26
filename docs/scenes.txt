@@ -6,13 +6,6 @@ package scenes
     import "github.com/willroberts/tactics/game/scenes"
 
 
-VARIABLES
-
-var (
-    ErrStartingGame error = errors.New("starting game")
-    ErrQuitting     error = errors.New("quitting")
-)
-
 FUNCTIONS
 
 func NewIsometricScene(e engine.SDLEngine) engine.Scene

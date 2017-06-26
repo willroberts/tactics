@@ -24,6 +24,20 @@ func HandleInput(e sdl.Event) int
     KeyDownEvent and TextInputEvent are things. Sometimes Q will trigger one
     but not the other.
 
+TYPES
+
+type CameraController interface {
+    ProcessEvents([]sdl.Event) error
+}
+
+func NewCameraController() CameraController
+
+type MenuController interface {
+    ProcessEvents([]sdl.Event) error
+}
+
+func NewMenuController(m menu.Menu) MenuController
+
 SUBDIRECTORIES
 
 	cmd
