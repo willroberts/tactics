@@ -5,6 +5,7 @@ PACKAGE DOCUMENTATION
 package scenes
     import "github.com/willroberts/tactics/game/scenes"
 
+    Package scenes contains scenes for our game, including menus and levels.
 
 VARIABLES
 

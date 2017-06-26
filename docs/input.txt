@@ -5,6 +5,7 @@ PACKAGE DOCUMENTATION
 package input
     import "github.com/willroberts/tactics/engine/input"
 
+    Package input handles keyboard and mouse input with SDL.
 
 CONSTANTS
 
@@ -49,7 +50,4 @@ type MenuController interface {
 
 func NewMenuController(m menu.Menu) MenuController
 
-SUBDIRECTORIES
-
-	cmd
 
