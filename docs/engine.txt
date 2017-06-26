@@ -9,6 +9,12 @@ package engine
     for audio, input, and networking will be added as needed. Integration
     with OpenGL contexts may also be added for 3D rendering.
 
+VARIABLES
+
+var (
+    ErrQuitting error = errors.New("quitting")
+)
+
 TYPES
 
 type Camera interface {

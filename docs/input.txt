@@ -13,6 +13,8 @@ const (
     ActionQuit
     ActionUp
     ActionDown
+    ActionLeft
+    ActionRight
     ActionNotImplemented
     ActionUnknown
 )
@@ -30,7 +32,19 @@ type CameraController interface {
     ProcessEvents([]sdl.Event) error
 }
 
-func NewCameraController() CameraController
+func NewCameraController(c engine.Camera) CameraController
+
+type CutsceneController interface {
+    ProcessEvents([]sdl.Event) error
+}
+
+func NewCutsceneController() CutsceneController
+
+type GameController interface {
+    ProcessEvents([]sdl.Event) error
+}
+
+func NewGameController() GameController
 
 type MenuController interface {
     ProcessEvents([]sdl.Event) error
