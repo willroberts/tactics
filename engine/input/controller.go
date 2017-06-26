@@ -51,16 +51,16 @@ func (c *cameraController) ProcessEvents(events []sdl.Event) error {
 		action := HandleInput(e)
 		if action == ActionUp {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x, y-1)
+			c.camera.MoveTo(x, y-2)
 		} else if action == ActionDown {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x, y+1)
+			c.camera.MoveTo(x, y+2)
 		} else if action == ActionLeft {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x-1, y)
+			c.camera.MoveTo(x-2, y)
 		} else if action == ActionRight {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x+1, y)
+			c.camera.MoveTo(x+2, y)
 		}
 	}
 	return nil
