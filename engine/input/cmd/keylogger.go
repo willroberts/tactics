@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	eng, _ := engine.NewSDLEngine("keylogger", 640, 480)
+	eng, _ := engine.NewSDLEngine("keylogger")
 	defer eng.Window().Destroy()
 
 	cont := true

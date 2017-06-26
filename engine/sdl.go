@@ -37,6 +37,7 @@ type sdlengine struct {
 	surface  *sdl.Surface
 	renderer *sdl.Renderer
 	camera   Camera
+	desktop  *sdl.DisplayMode
 }
 
 func (s *sdlengine) Window() *sdl.Window {
@@ -156,12 +157,13 @@ func (s *sdlengine) DestroyWindow() {
 }
 
 // NewSDLEngine creates an SDL window, surface, and renderer with the given
-// properties. Implements and returns the SDLEngine interface.
-func NewSDLEngine(title string, width int, height int) (SDLEngine, error) {
+// title. Implements and returns the SDLEngine interface.
+func NewSDLEngine(title string) (SDLEngine, error) {
 	s := &sdlengine{}
 
+	// Create a fullscreen window, initially with tiny resolution.
 	window, err := sdl.CreateWindow(title, sdl.WINDOWPOS_UNDEFINED,
-		sdl.WINDOWPOS_UNDEFINED, width, height, sdl.WINDOW_SHOWN)
+		sdl.WINDOWPOS_UNDEFINED, 0, 0, sdl.WINDOW_FULLSCREEN) //sdl.WINDOW_SHOWN)
 	if err != nil {
 		return s, err
 	}
@@ -180,6 +182,15 @@ func NewSDLEngine(title string, width int, height int) (SDLEngine, error) {
 	s.renderer = renderer
 
 	s.camera = NewCamera()
+
+	// Set the window dimensions to the desktop dimensions (windowed fullscreen).
+	desktop := &sdl.DisplayMode{}
+	// FIXME: Handle multiple screens (not just 0).
+	if err := sdl.GetDesktopDisplayMode(0, desktop); err != nil {
+		return s, err
+	}
+	s.desktop = desktop
+	window.SetSize(int(desktop.W), int(desktop.H))
 
 	return s, nil
 }
