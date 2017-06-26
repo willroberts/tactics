@@ -19,15 +19,12 @@ func (c *menuController) ProcessEvents(events []sdl.Event) error {
 		if action == ActionUp {
 			c.menu.CursorUp()
 			return nil
-		}
-		if action == ActionDown {
+		} else if action == ActionDown {
 			c.menu.CursorDown()
 			return nil
-		}
-		if action == ActionSubmit {
+		} else if action == ActionSubmit {
 			return c.menu.Buttons()[c.menu.CursorPos()].Handler()
-		}
-		if action == ActionQuit {
+		} else if action == ActionQuit {
 			return engine.ErrQuitting
 		}
 	}
@@ -61,6 +58,8 @@ func (c *cameraController) ProcessEvents(events []sdl.Event) error {
 		} else if action == ActionRight {
 			x, y := c.camera.Position()
 			c.camera.MoveTo(x+2, y)
+		} else if action == ActionQuit {
+			return engine.ErrQuitting
 		}
 	}
 	return nil
