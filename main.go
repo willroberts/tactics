@@ -7,13 +7,8 @@ import (
 	"github.com/willroberts/tactics/game/scenes"
 )
 
-const (
-	winW int = 900
-	winH int = 500
-)
-
 func main() {
-	eng, err := engine.NewSDLEngine("tactics", winW, winH)
+	eng, err := engine.NewSDLEngine("tactics")
 	if err != nil {
 		log.Fatalln("failed to initalize sdl engine:", err)
 	}
