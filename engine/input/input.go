@@ -11,6 +11,8 @@ const (
 	ActionQuit
 	ActionUp
 	ActionDown
+	ActionLeft
+	ActionRight
 	ActionNotImplemented
 	ActionUnknown
 )
@@ -73,15 +75,16 @@ func handleKey(key sdl.Keycode) int {
 	log.Println("key pressed:", key)
 	if submitMap[key] {
 		return ActionSubmit
-	}
-	if quitMap[key] {
+	} else if quitMap[key] {
 		return ActionQuit
-	}
-	if key == keyArrowUp {
+	} else if key == keyArrowUp {
 		return ActionUp
-	}
-	if key == keyArrowDown {
+	} else if key == keyArrowDown {
 		return ActionDown
+	} else if key == keyArrowLeft {
+		return ActionLeft
+	} else if key == keyArrowRight {
+		return ActionRight
 	}
 	// TODO: Implement handling (or ignoring) of other keypresses.
 	return ActionNotImplemented
