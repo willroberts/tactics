@@ -25,7 +25,7 @@ func main() {
 		}
 		for {
 			if err := scene.Main(); err != nil {
-				if err == scenes.ErrQuitGame {
+				if err == engine.ErrQuitting {
 					_ = scene.Teardown()
 					return
 				} else if err == scenes.ErrEndScene {
