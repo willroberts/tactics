@@ -14,7 +14,6 @@ var (
 	err error
 )
 
-// TODO: Determine why this only has 78.6% test coverage.
 func TestNewSDLEngine(t *testing.T) {
 	eng, err = NewSDLEngine("test")
 	if err != nil {

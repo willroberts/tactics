@@ -49,10 +49,6 @@ func TestBadFontFile(t *testing.T) {
 	}
 }
 
-func TestTTFInitFailure(t *testing.T) {
-	// TODO: Determine how to test ttf.Init() in NewMenu().
-}
-
 func TestFont(t *testing.T) {
 	if testMenu.Font() == nil {
 		t.Errorf("error: failed to set font")

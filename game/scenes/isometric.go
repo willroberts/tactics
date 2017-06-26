@@ -28,9 +28,8 @@ type isometricScene struct {
 }
 
 func (s *isometricScene) Setup() error {
-	// FIXME: Find a better way to derive these values.
-	w, h := s.eng.Window().GetSize()
-	s.eng.Camera().MoveTo(-int32(w)/2, -int32(h)/5)
+	w, _ := s.eng.Window().GetSize()
+	s.eng.Camera().MoveTo(-int32(w)/2, 0)
 
 	s.grid = grid.NewGrid(gridW, gridH, cellW, cellH)
 	s.grid.Checkerboard(cLtBlue, cDkBlue)

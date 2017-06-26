@@ -96,8 +96,6 @@ func TestTextures(t *testing.T) {
 	_ = s.textures
 }
 
-// FIXME: Determine how to test failures of img.Load() on temp file.
-// FIXME: Determine how to test failures of r.CreateTextureFromSurface().
 func TestCreateTexture(t *testing.T) {
 	eng, err := NewSDLEngine("test")
 	if err != nil {
