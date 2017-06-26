@@ -1,7 +1,6 @@
 package scenes
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/engine"
 	"github.com/willroberts/tactics/engine/input"
 	"github.com/willroberts/tactics/engine/menu"
@@ -41,42 +40,30 @@ func (s *mainMenuScene) Setup() error {
 	})
 
 	m.AddButton("Quit", func() error {
-		return ErrQuitGame
+		return engine.ErrQuitting
 	})
 
-	c := input.NewMenuController(m)
-	s.controller = c
+	s.controller = input.NewMenuController(m)
 
 	return nil
 }
 
 func (s *mainMenuScene) Main() error {
-	w, h := s.eng.Window().GetSize()
-
-	err := s.eng.ClearScreen()
-	if err != nil {
+	if err := s.eng.ClearScreen(); err != nil {
 		return err
 	}
 
-	err = s.eng.DrawRect(&sdl.Rect{
-		X: 0,
-		Y: 0,
-		W: int32(w),
-		H: int32(h),
-	}, cGray)
-	if err != nil {
+	if err := s.eng.FillWindow(cGray); err != nil {
 		return err
 	}
 
 	for _, b := range s.m.Buttons() {
-		err = s.eng.DrawLabel(b.Text, b.Rect, s.m.Font())
-		if err != nil {
+		if err := s.eng.DrawLabel(b.Text, b.Rect, s.m.Font()); err != nil {
 			return err
 		}
 	}
 
-	err = s.controller.ProcessEvents(s.eng.Events())
-	if err != nil {
+	if err := s.controller.ProcessEvents(s.eng.Events()); err != nil {
 		return err
 	}
 
