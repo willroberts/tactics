@@ -20,17 +20,14 @@ const (
 var (
 	submitMap map[sdl.Keycode]bool = map[sdl.Keycode]bool{
 		keyEnter:    true,
-		keySpacebar: true,
+		sdl.K_SPACE: true,
 	}
 	quitMap map[sdl.Keycode]bool = map[sdl.Keycode]bool{
 		keyEscape: true,
-		keyQ:      true,
+		sdl.K_q:   true,
 	}
 )
 
-// FIXME: Pull non-input events out of this code!
-// FIXME: Determine why KeyDownEvent and TextInputEvent are things. Sometimes Q
-// will trigger one but not the other.
 func HandleInput(e sdl.Event) int {
 	switch t := e.(type) {
 	case *sdl.QuitEvent:
@@ -42,13 +39,10 @@ func HandleInput(e sdl.Event) int {
 		key := t.Keysym.Sym
 		return handleKey(key)
 	case *sdl.KeyUpEvent:
-		// TODO: Implement this.
 		return ActionNotImplemented
 	case *sdl.MouseMotionEvent:
-		// TODO: Implement this.
 		return ActionNotImplemented
 	case *sdl.WindowEvent:
-		// TODO: Implement this.
 		return ActionNotImplemented
 	default:
 		log.Println("unknown action was:", t)
@@ -63,17 +57,22 @@ func HandleInput(e sdl.Event) int {
 // For example, 'a' is 97, 'b' is 98, 'A' is 65, 'B" is 66, etc.
 func textToKey(t *sdl.TextInputEvent) sdl.Keycode {
 	keycode := t.Text[0]
-	if keycode == 113 {
+	switch keycode {
+	case 32:
+		return sdl.K_SPACE
+	case 113:
 		return sdl.K_q
+	default:
+		log.Println("unknown text input:", keycode)
+		return sdl.K_UNKNOWN
 	}
-	return sdl.K_UNKNOWN
 }
 
 func handleKey(key sdl.Keycode) int {
 	if key == 0 {
-		// I believe this is another way of handling KeyUpEvent
 		return ActionNotImplemented
 	}
+
 	log.Println("key pressed:", key)
 	if submitMap[key] {
 		return ActionSubmit
@@ -88,6 +87,6 @@ func handleKey(key sdl.Keycode) int {
 	} else if key == keyArrowRight {
 		return ActionRight
 	}
-	// TODO: Implement handling (or ignoring) of other keypresses.
+
 	return ActionNotImplemented
 }
