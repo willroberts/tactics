@@ -1,9 +1,6 @@
 package scenes
 
 import (
-	"errors"
-	"log"
-
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/willroberts/tactics/engine"
 	"github.com/willroberts/tactics/engine/input"
@@ -40,11 +37,11 @@ func (s *mainMenuScene) Setup() error {
 	s.m = m
 
 	m.AddButton("Start Game", func() error {
-		return errors.New("dear engine: please continue to next scene")
+		return ErrEndScene
 	})
 
 	m.AddButton("Quit", func() error {
-		return errors.New("dear engine: please quit the game")
+		return ErrQuitGame
 	})
 
 	c := input.NewMenuController(m)
@@ -80,7 +77,7 @@ func (s *mainMenuScene) Main() error {
 
 	err = s.controller.ProcessEvents(s.eng.Events())
 	if err != nil {
-		log.Println("failed to click button:", err)
+		return err
 	}
 
 	cr, err := s.m.CursorRect()

@@ -14,33 +14,30 @@ func main() {
 	}
 	defer eng.Window().Destroy()
 
-	// SCENE 1: MAIN MENU
-	scene := scenes.NewMainMenuScene(eng)
-	if err = scene.Setup(); err != nil {
-		log.Fatalln("error during menu scene setup:", err)
-	}
-	for {
-		if err := scene.Main(); err != nil {
-			log.Println("error:", err)
-			break
-		}
-	}
-	if err = scene.Teardown(); err != nil {
-		log.Println("error tearing down menu scene:", err)
+	sceneList := []engine.Scene{
+		scenes.NewMainMenuScene(eng),
+		scenes.NewIsometricScene(eng),
 	}
 
-	// SCENE 2: ISOMETRIC
-	scene = scenes.NewIsometricScene(eng)
-	if err = scene.Setup(); err != nil {
-		log.Fatalln("error during scene setup:", err)
-	}
-	for {
-		if err := scene.Main(); err != nil {
-			log.Println("error:", err)
-			break
+	for _, scene := range sceneList {
+		if err = scene.Setup(); err != nil {
+			log.Fatalln("error during menu scene setup:", err)
 		}
-	}
-	if err = scene.Teardown(); err != nil {
-		log.Println("error during scene teardown:", err)
+		for {
+			if err := scene.Main(); err != nil {
+				if err == scenes.ErrQuitGame {
+					_ = scene.Teardown()
+					return
+				} else if err == scenes.ErrEndScene {
+					break
+				} else {
+					log.Println("error:", err)
+					break
+				}
+			}
+		}
+		if err = scene.Teardown(); err != nil {
+			log.Println("error tearing down menu scene:", err)
+		}
 	}
 }
