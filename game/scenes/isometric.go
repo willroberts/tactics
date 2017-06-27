@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	gridW int = 12
-	gridH int = 12
-	cellW int = 40
-	cellH int = 40
+	gridW int = 10
+	gridH int = 10
+	cellW int = 64
+	cellH int = 64
 
 	cBlack  uint32 = 0xff000000
 	cDkGray uint32 = 0xff333333
