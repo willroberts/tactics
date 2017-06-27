@@ -20,6 +20,7 @@ type SDLEngine interface {
 
 	ClearScreen() error
 	FillWindow(uint32) error
+	Gradient(*sdl.Rect, uint32, uint32) error
 	DrawRect(*sdl.Rect, uint32) error
 	DrawIsometricRect(*sdl.Rect, uint32) error
 	DrawLabel(string, *sdl.Rect, *ttf.Font) error
