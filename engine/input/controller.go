@@ -9,6 +9,7 @@ import (
 type MenuController interface {
 	ProcessEvents([]sdl.Event) error
 }
+
 type menuController struct {
 	menu menu.Menu
 }
@@ -30,6 +31,7 @@ func (c *menuController) ProcessEvents(events []sdl.Event) error {
 	}
 	return nil
 }
+
 func NewMenuController(m menu.Menu) MenuController {
 	return &menuController{menu: m}
 }
@@ -39,6 +41,7 @@ func NewMenuController(m menu.Menu) MenuController {
 type CameraController interface {
 	ProcessEvents([]sdl.Event) error
 }
+
 type cameraController struct {
 	camera engine.Camera
 }
@@ -46,24 +49,26 @@ type cameraController struct {
 func (c *cameraController) ProcessEvents(events []sdl.Event) error {
 	for _, e := range events {
 		action := HandleInput(e)
+		var cameraSpeed int32 = 10
 		if action == ActionUp {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x, y-2)
+			c.camera.MoveTo(x, y-cameraSpeed)
 		} else if action == ActionDown {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x, y+2)
+			c.camera.MoveTo(x, y+cameraSpeed)
 		} else if action == ActionLeft {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x-2, y)
+			c.camera.MoveTo(x-cameraSpeed, y)
 		} else if action == ActionRight {
 			x, y := c.camera.Position()
-			c.camera.MoveTo(x+2, y)
+			c.camera.MoveTo(x+cameraSpeed, y)
 		} else if action == ActionQuit {
 			return engine.ErrQuitting
 		}
 	}
 	return nil
 }
+
 func NewCameraController(c engine.Camera) CameraController {
 	return &cameraController{camera: c}
 }
@@ -73,11 +78,13 @@ func NewCameraController(c engine.Camera) CameraController {
 type CutsceneController interface {
 	ProcessEvents([]sdl.Event) error
 }
+
 type cutsceneController struct{}
 
 func (c *cutsceneController) ProcessEvents(events []sdl.Event) error {
 	return nil
 }
+
 func NewCutsceneController() CutsceneController {
 	return &cutsceneController{}
 }
@@ -87,11 +94,13 @@ func NewCutsceneController() CutsceneController {
 type GameController interface {
 	ProcessEvents([]sdl.Event) error
 }
+
 type gameController struct{}
 
 func (c *gameController) ProcessEvents(events []sdl.Event) error {
 	return nil
 }
+
 func NewGameController() GameController {
 	return &gameController{}
 }
