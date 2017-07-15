@@ -49,21 +49,26 @@ type cameraController struct {
 func (c *cameraController) ProcessEvents(events []sdl.Event) error {
 	for _, e := range events {
 		action := HandleInput(e)
+		if action == ActionQuit {
+			return engine.ErrQuitting
+		}
+
 		var cameraSpeed int32 = 10
 		if action == ActionUp {
 			x, y := c.camera.Position()
 			c.camera.MoveTo(x, y-cameraSpeed)
-		} else if action == ActionDown {
+		}
+		if action == ActionDown {
 			x, y := c.camera.Position()
 			c.camera.MoveTo(x, y+cameraSpeed)
-		} else if action == ActionLeft {
+		}
+		if action == ActionLeft {
 			x, y := c.camera.Position()
 			c.camera.MoveTo(x-cameraSpeed, y)
-		} else if action == ActionRight {
+		}
+		if action == ActionRight {
 			x, y := c.camera.Position()
 			c.camera.MoveTo(x+cameraSpeed, y)
-		} else if action == ActionQuit {
-			return engine.ErrQuitting
 		}
 	}
 	return nil
