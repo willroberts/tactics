@@ -5,7 +5,7 @@ A 2D tactics game written in Go, using a custom engine on the SDL2 library.
 Unfinished; current state includes rendering of the isometric grid but no actors
 or game logic/scenes.
 
-## Documentations
+## Documentation
 
 See godoc.org/github.com/willroberts/tactics
 * engine: sdl2-based game engine
