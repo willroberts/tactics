@@ -1,0 +1,6 @@
+github.com/oliamb/cutter v0.2.1-0.20150813164310-6bb26911f524 h1:FlUtwnomEvJ4y29aVOeP/n7jG1Zv2zPZ3duQTeXOBlM=
+github.com/oliamb/cutter v0.2.1-0.20150813164310-6bb26911f524/go.mod h1:4BenG2/4GuRBDbVm/OPahDVqbrOemzpPiG5mi1iryBU=
+github.com/salviati/go-tmx v0.0.0-20170401215854-e61613f80a4c h1:1gxJ6O6ekMnR7nbsX6LqzKSFNDfYd3wc8OMkiPTklcg=
+github.com/salviati/go-tmx v0.0.0-20170401215854-e61613f80a4c/go.mod h1:MHMSHqNIP7nhf3dSczdtzy/1mKyYaQP7sHbXwmXvvaA=
+github.com/veandco/go-sdl2 v0.1.1-0.20170612081110-2f90afa8b3ff h1:BDa7y0ZCnpxKmzRgjmIVm09u2+PCWGcMg2RYCmqfU6g=
+github.com/veandco/go-sdl2 v0.1.1-0.20170612081110-2f90afa8b3ff/go.mod h1:FB+kTpX9YTE+urhYiClnRzpOXbiWgaU3+5F2AB78DPg=
